@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-bg: #FAFBFC;
+  --color-brand-dark: #0A1128;
+  --color-brand-navy: #0A1128;
+  --color-brand-surface: #FFFFFF;
+  --color-brand-card: #FFFFFF;
+  --color-brand-panel: #F8FAFC;
+  --color-brand-blue: #1677FF;
+  --color-brand-blue-hover: #388BFF;
+  --color-brand-gold: #F5B72C;
+  --color-brand-gold-light: #FCD34D;
+  --color-brand-text: #0A1128;
+  --color-brand-text-secondary: #475569;
+  --color-brand-text-muted: #64748B;
+  --color-brand-border: rgba(15, 23, 42, 0.08);
+  --color-brand-border-subtle: rgba(15, 23, 42, 0.04);
+  --color-brand-border-blue: rgba(22, 119, 255, 0.35);
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Outfit', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Menlo, Monaco, monospace;
+}
+
+html {
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #FAFBFC;
+  color: #0A1128;
+}
+
+body {
+  background-color: #FAFBFC;
+  color: #475569;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* Precision Hairline Dividers */
+.hairline-border {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.hairline-b {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.hairline-t {
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+/* Subtle Technical Light Grid Background */
+.tech-grid-light {
+  background-image: linear-gradient(to right, rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.tech-dot-light {
+  background-image: radial-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Dark grid background for dark sections */
+.tech-grid-bg {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.tech-dot-bg {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAFBFC;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Selection */
+::selection {
+  background-color: #0A1128;
+  color: #FFFFFF;
+}
+
+/* Orbital Rotations */
+@keyframes spinClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinCounterClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes subtleFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes pulseHighlight {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes goldSparkShimmer {
+  0%, 100% {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 4px rgba(245, 183, 44, 0.4));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(245, 183, 44, 0.9));
+  }
+}
+
+.animate-spin-slow {
+  animation: spinClockwise 28s linear infinite;
+}
+
+.animate-spin-reverse-slow {
+  animation: spinCounterClockwise 36s linear infinite;
+}
+
+.animate-spin-outer {
+  animation: spinClockwise 48s linear infinite;
+}
+
+.animate-subtle-float {
+  animation: subtleFloat 5s ease-in-out infinite;
+}
+
+.animate-spark-shimmer {
+  animation: goldSparkShimmer 3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
