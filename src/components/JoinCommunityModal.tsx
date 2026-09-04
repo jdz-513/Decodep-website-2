@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { X, CheckCircle, Users, Send } from 'lucide-react'
+import { X, CheckCircle, Users, Send, Sparkles } from 'lucide-react'
 import { brandData, communityData } from '../data/officialData'
 
 interface JoinCommunityModalProps {
@@ -21,6 +21,7 @@ export const JoinCommunityModal: React.FC<JoinCommunityModalProps> = ({ isOpen, 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!formData.name.trim() || !formData.email.trim()) return
     setIsSubmitted(true)
   }
 
@@ -39,76 +40,89 @@ export const JoinCommunityModal: React.FC<JoinCommunityModalProps> = ({ isOpen, 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
       <div
-        className="relative bg-[#0D1728] text-white rounded-2xl max-w-lg w-full p-6 md:p-8 shadow-2xl border border-white/10 animate-in fade-in zoom-in-95 duration-200"
+        className="relative bg-[#FAF8F5] text-[#10141D] rounded-sm max-w-lg w-full p-6 sm:p-8 shadow-2xl border-2 border-[#C59B27]/40 animate-in fade-in zoom-in-95 duration-200"
         role="dialog"
         aria-modal="true"
         aria-labelledby="join-modal-title"
       >
+        {/* Top Gold Foil Accent Bar */}
+        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#C59B27] via-[#F7E7BD] to-[#C59B27]" />
+
         <button
           type="button"
           onClick={handleReset}
-          className="absolute top-5 right-5 p-2 text-[#9AA8BA] hover:text-white rounded-full hover:bg-white/[0.06] focus:outline-none focus:ring-1 focus:ring-[#1677FF]"
+          className="absolute top-5 right-5 p-2 text-[#667588] hover:text-[#10141D] rounded-sm hover:bg-[#EDE5DA] focus:outline-none focus:ring-1 focus:ring-[#C59B27]"
           aria-label="Close modal"
         >
           <X className="w-5 h-5" />
         </button>
 
         {isSubmitted ? (
-          <div className="text-center py-6 space-y-4">
-            <div className="w-16 h-16 bg-[#1677FF]/15 text-[#1677FF] border border-[#1677FF]/30 rounded-full flex items-center justify-center mx-auto">
-              <CheckCircle className="w-8 h-8" />
+          <div className="text-center py-6 space-y-5">
+            <div className="w-14 h-14 bg-[#FAF2DD] text-[#8F6B0A] border border-[#E8D39E] rounded-full flex items-center justify-center mx-auto">
+              <CheckCircle className="w-7 h-7" />
             </div>
-            <h3 className="text-2xl font-bold font-display uppercase tracking-tight text-white">
-              Welcome to the Community
-            </h3>
-            <p className="text-xs sm:text-sm text-[#9AA8BA] max-w-sm mx-auto leading-relaxed">
-              You have successfully registered for the <strong className="text-white">DECODEP Community</strong>. You will receive updates about upcoming hackathons, technical workshops, and collaboration opportunities.
+
+            <div className="space-y-1">
+              <h3 className="text-2xl font-editorial-display font-bold uppercase tracking-tight text-[#10141D]">
+                Welcome to DECODEP
+              </h3>
+            </div>
+
+            <p className="text-xs sm:text-sm text-[#556477] max-w-sm mx-auto leading-relaxed">
+              You are now enrolled in the <strong className="text-[#10141D] font-bold">DECODEP Developer Community</strong>. You will receive updates on upcoming hackathons, technical workshops, collaborative builds, and mentorship sessions.
             </p>
-            <div className="p-4 bg-[#07111F] rounded-xl text-xs text-[#9AA8BA] text-left space-y-1.5 border border-white/10 font-mono">
-              <div className="font-semibold text-white uppercase text-[11px]">Community Focus:</div>
-              <div>✨ {communityData.pillars.map((p) => p.title).join(' • ')}</div>
-              <div>🌐 Real-world technical events & challenges</div>
+
+            <div className="p-4 bg-[#FAF2DD] rounded-lg text-xs text-[#556477] text-left space-y-1.5 border border-[#E8D39E]">
+              <div className="font-bold text-[#10141D] uppercase text-[10px] tracking-wider border-b border-[#C59B27]/20 pb-1.5 font-mono">
+                Community Pillars:
+              </div>
+              <div>{communityData.pillars.map((p) => p.title).join(' • ')}</div>
+              <div>1000+ Students, Developers & Innovators</div>
             </div>
+
             <button
               type="button"
               onClick={handleReset}
-              className="w-full mt-4 py-3 px-4 bg-[#1677FF] hover:bg-[#388BFF] text-white font-semibold rounded-xl transition-colors text-xs uppercase tracking-wider font-mono"
+              className="w-full py-3 px-4 bg-[#10141D] hover:bg-[#C59B27] text-white font-bold rounded-lg transition-colors text-xs uppercase tracking-wider"
             >
-              Done
+              Close
             </button>
           </div>
         ) : (
           <div>
-            <div className="mb-6">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-[11px] font-mono font-semibold bg-[#1677FF]/15 text-[#1677FF] border border-[#1677FF]/30 mb-3">
+            <div className="mb-6 space-y-2">
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-sm bg-[#C59B27]/10 text-[#9B7617] border border-[#C59B27]/30 text-[10px] font-editorial-mono font-semibold uppercase tracking-wider">
                 <Users className="w-3.5 h-3.5" />
-                <span>DECODEP Developer Ecosystem</span>
+                <span>1000+ BUILDERS • GLOBAL NETWORK</span>
               </div>
-              <h3 id="join-modal-title" className="text-2xl sm:text-3xl font-bold font-display uppercase tracking-tight text-white">
+
+              <h3 id="join-modal-title" className="text-2xl sm:text-3xl font-editorial-display font-bold uppercase tracking-tight text-[#10141D]">
                 Join DECODEP Community
               </h3>
-              <p className="text-xs text-[#9AA8BA] mt-2">
-                Connect with students, developers, and tech enthusiasts. Learn, build, and grow together.
+
+              <p className="text-xs font-editorial-serif text-[#526071] leading-relaxed">
+                Connect with passionate developers, students, mentors, and innovators. Learn through workshops, build real systems, and grow together.
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4 text-sm">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-mono uppercase text-[#9AA8BA] mb-1">
+                <label className="block text-[10px] font-editorial-mono font-bold uppercase tracking-wider text-[#4A5568] mb-1">
                   Full Name *
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="Enter your name"
+                  placeholder="e.g. Jane Developer"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-white/10 bg-[#07111F] text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-[#1677FF] text-xs"
+                  className="w-full px-3.5 py-2.5 rounded-sm border border-[#10141D]/15 bg-white text-[#10141D] placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-[#C59B27] text-xs font-editorial-sans"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase text-[#9AA8BA] mb-1">
+                <label className="block text-[10px] font-editorial-mono font-bold uppercase tracking-wider text-[#4A5568] mb-1">
                   Email Address *
                 </label>
                 <input
@@ -117,28 +131,28 @@ export const JoinCommunityModal: React.FC<JoinCommunityModalProps> = ({ isOpen, 
                   placeholder="you@example.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-white/10 bg-[#07111F] text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-[#1677FF] text-xs"
+                  className="w-full px-3.5 py-2.5 rounded-sm border border-[#10141D]/15 bg-white text-[#10141D] placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-[#C59B27] text-xs font-editorial-sans"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-mono uppercase text-[#9AA8BA] mb-1">
+                  <label className="block text-[10px] font-editorial-mono font-bold uppercase tracking-wider text-[#4A5568] mb-1">
                     Your Profile
                   </label>
                   <select
                     value={formData.role}
                     onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-white/10 bg-[#07111F] text-white focus:outline-none focus:ring-1 focus:ring-[#1677FF] text-xs"
+                    className="w-full px-3.5 py-2.5 rounded-sm border border-[#10141D]/15 bg-white text-[#10141D] focus:outline-none focus:ring-1 focus:ring-[#C59B27] text-xs font-editorial-sans"
                   >
-                    <option value="Student / Developer" className="bg-[#0D1728]">Student / Developer</option>
-                    <option value="Working Professional" className="bg-[#0D1728]">Working Professional</option>
-                    <option value="Mentor / Speaker" className="bg-[#0D1728]">Mentor / Speaker</option>
-                    <option value="Tech Enthusiast" className="bg-[#0D1728]">Tech Enthusiast</option>
+                    <option value="Student / Developer">Student / Developer</option>
+                    <option value="Working Professional">Working Professional</option>
+                    <option value="Mentor / Speaker">Mentor / Speaker</option>
+                    <option value="Tech Enthusiast">Tech Enthusiast</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-mono uppercase text-[#9AA8BA] mb-1">
+                  <label className="block text-[10px] font-editorial-mono font-bold uppercase tracking-wider text-[#4A5568] mb-1">
                     Location / City
                   </label>
                   <input
@@ -146,27 +160,27 @@ export const JoinCommunityModal: React.FC<JoinCommunityModalProps> = ({ isOpen, 
                     placeholder="e.g. Erode, Chennai, Remote"
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-white/10 bg-[#07111F] text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-[#1677FF] text-xs"
+                    className="w-full px-3.5 py-2.5 rounded-sm border border-[#10141D]/15 bg-white text-[#10141D] placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-[#C59B27] text-xs font-editorial-sans"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase text-[#9AA8BA] mb-1">
-                  Areas of Interest
+                <label className="block text-[10px] font-editorial-mono font-bold uppercase tracking-wider text-[#4A5568] mb-1">
+                  Primary Technical Interests
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. AI, Web Development, Mobile Apps, Hackathons"
+                  placeholder="e.g. AI, Full-Stack Web, Mobile Apps, Hackathons"
                   value={formData.interests}
                   onChange={(e) => setFormData({ ...formData, interests: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-lg border border-white/10 bg-[#07111F] text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-[#1677FF] text-xs"
+                  className="w-full px-3.5 py-2.5 rounded-sm border border-[#10141D]/15 bg-white text-[#10141D] placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-[#C59B27] text-xs font-editorial-sans"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3.5 px-4 bg-[#1677FF] hover:bg-[#388BFF] text-white font-bold rounded-xl transition-all shadow-md active:scale-98 text-xs uppercase tracking-wider font-mono flex items-center justify-center gap-2"
+                className="w-full py-3 px-4 bg-[#10141D] hover:bg-[#C59B27] text-white font-bold rounded-lg transition-all shadow-sm text-xs uppercase tracking-wider flex items-center justify-center gap-2"
               >
                 <span>Join Community</span>
                 <Send className="w-3.5 h-3.5" />

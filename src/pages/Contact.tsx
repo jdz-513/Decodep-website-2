@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
   ArrowUpRight,
   Check,
@@ -6,782 +6,377 @@ import {
   Linkedin,
   Mail,
   MessageCircle,
+  Phone,
   Send,
-  Sparkles,
-} from "lucide-react";
-
-const DECODEP_EMAIL = "officialdecodep@gmail.com";
+} from 'lucide-react'
+import { brandData } from '../data/officialData'
 
 type FormState = {
-  name: string;
-  email: string;
-  phone: string;
-  category: string;
-  message: string;
-};
+  name: string
+  email: string
+  phone: string
+  category: string
+  message: string
+}
 
-type InputProps = {
-  label: string;
-  name: string;
-  value: string;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-  placeholder?: string;
-  type?: string;
-  required?: boolean;
-};
+const resolveApiEndpoint = (path: string) => {
+  const configuredBase =
+    (import.meta.env.VITE_CONTACT_API_URL as string | undefined) ||
+    (import.meta.env.VITE_API_URL as string | undefined)
 
-type SocialLinkProps = {
-  icon: React.ReactNode;
-  platform: string;
-  handle: string;
-  href: string;
-  last?: boolean;
-};
+  if (!configuredBase) return null
+
+  const base = configuredBase.endsWith('/') ? configuredBase.slice(0, -1) : configuredBase
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+
+  return `${base}${normalizedPath}`
+}
 
 export default function Contact() {
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSending, setIsSending] = useState(false);
-
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSending, setIsSending] = useState(false)
+  const [submitError, setSubmitError] = useState('')
   const [form, setForm] = useState<FormState>({
-    name: "",
-    email: "",
-    phone: "",
-    category: "Business / Project",
-    message: "",
-  });
+    name: '',
+    email: '',
+    phone: '',
+    category: 'Business / Project',
+    message: '',
+  })
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     setForm((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
-    }));
-  };
+    }))
+  }
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
 
-    if (
-      !form.name.trim() ||
-      !form.email.trim() ||
-      !form.message.trim()
-    ) {
-      return;
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+      setSubmitError('Please complete the required name, email and message fields.')
+      return
     }
 
-    setIsSending(true);
+    const endpoint = resolveApiEndpoint('/contact')
 
-    /*
-      Connect your backend / email service here.
+    if (!endpoint) {
+      setSubmitError('The contact API endpoint is not configured yet. Set VITE_CONTACT_API_URL or VITE_API_URL in your environment to enable live submission.')
+      return
+    }
 
-      Example:
+    setIsSending(true)
+    setSubmitError('')
 
-      await fetch("/api/contact", {
-        method: "POST",
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(form),
-      });
-    */
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          category: form.category,
+          message: form.message,
+        }),
+      })
 
-    await new Promise((resolve) => setTimeout(resolve, 1200));
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`)
+      }
 
-    setIsSending(false);
-    setIsSubmitted(true);
-  };
+      setIsSubmitted(true)
+    } catch (error) {
+      setSubmitError('We could not send your message right now. Please try again or contact DECODEP directly via email or phone.')
+    } finally {
+      setIsSending(false)
+    }
+  }
 
   const resetForm = () => {
-    setIsSubmitted(false);
-
+    setIsSubmitted(false)
+    setSubmitError('')
     setForm({
-      name: "",
-      email: "",
-      phone: "",
-      category: "Business / Project",
-      message: "",
-    });
-  };
+      name: '',
+      email: '',
+      phone: '',
+      category: 'Business / Project',
+      message: '',
+    })
+  }
 
   return (
-    <main
-      className="min-h-screen overflow-hidden bg-[#F5F9FA] text-[#080C12]"
-      style={{
-        fontFamily: "Inter, Arial, sans-serif",
-      }}
-    >
-      {/* =========================================================
-          SECTION 01 — HERO
-      ========================================================== */}
-
-      <section className="relative flex min-h-[530px] items-center justify-center overflow-hidden px-6 pt-24 pb-12 sm:px-10 lg:min-h-[555px] lg:px-16">
-        {/* Technical grid */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.38]"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(8,12,18,0.045) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(8,12,18,0.045) 1px, transparent 1px)
-            `,
-            backgroundSize: "54px 54px",
-            maskImage:
-              "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
-          }}
-        />
-
-        {/* Ambient light */}
-        <div className="pointer-events-none absolute left-[12%] top-[20%] h-[230px] w-[230px] rounded-full bg-[#54D8FF]/10 blur-[100px]" />
-
-        <div className="pointer-events-none absolute right-[10%] bottom-[10%] h-[250px] w-[250px] rounded-full bg-[#1677FF]/[0.06] blur-[110px]" />
-
-        {/* Hero */}
-        <div className="relative z-10 mx-auto w-full max-w-[1050px] text-center">
-          <div className="mb-7 flex justify-center">
-            <div
-              className="inline-flex items-center gap-2.5 rounded-full border border-[#0A1017] bg-[#0A1017] px-5 py-2.5 text-[8px] font-semibold uppercase tracking-[0.25em] text-white shadow-[0_10px_28px_rgba(8,12,18,0.11)]"
-              style={{ fontFamily: "monospace" }}
-            >
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute h-full w-full animate-ping rounded-full bg-[#54D8FF]/60" />
-                <span className="relative h-1.5 w-1.5 rounded-full bg-[#54D8FF]" />
-              </span>
-
-              Official Channels
-            </div>
+    <main className="min-h-screen bg-[#FAF8F5] text-[#10141D] pt-24 pb-20">
+      {/* Hero */}
+      <section className="border-b border-[#10141D]/10 px-6 py-16 sm:px-10 sm:py-20 lg:px-16">
+        <div className="max-w-4xl mx-auto text-center space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF2DD] text-[#8F6B0A] border border-[#E8D39E] text-xs font-mono font-semibold uppercase tracking-wider">
+            <span>Contact & Inquiries</span>
           </div>
 
-          <h1
-            className="text-[clamp(3.6rem,8vw,7.5rem)] font-normal leading-[0.83] tracking-[-0.065em]"
-            style={{
-              fontFamily: "Georgia, 'Times New Roman', serif",
-            }}
-          >
-            Get in Touch
-            <br />
-
-            <span className="italic text-[#1677FF]">
-              With DECODEP.
-            </span>
+          <h1 className="font-editorial-display text-4xl sm:text-5xl lg:text-6xl font-black uppercase text-[#10141D] tracking-tight">
+            Get In Touch With DECODEP
           </h1>
 
-          <p className="mx-auto mt-8 max-w-[560px] text-[13px] leading-6 text-[#707C84]">
-            Have an idea, project, collaboration, or opportunity in mind?
-            Let&apos;s connect, exchange ideas, and build what&apos;s next.
+          <p className="text-base sm:text-lg text-[#556477] max-w-2xl mx-auto leading-relaxed">
+            Have an idea, project requirement, partnership proposal, or community inquiry? Connect with the DECODEP team through our direct channels.
           </p>
-
-          <div className="mt-7 flex flex-wrap justify-center gap-2">
-            <HeroTag text="TECHNOLOGY" />
-            <HeroTag text="COMMUNITY" />
-            <HeroTag text="COLLABORATION" />
-            <HeroTag text="OPPORTUNITIES" />
-          </div>
-
-          <div className="mt-12 flex items-center justify-center gap-4 text-[8px] font-semibold uppercase tracking-[0.25em] text-[#99A5AC]">
-            <span className="h-px w-9 bg-[#CBD7DB]" />
-            Start a conversation
-            <span className="h-px w-9 bg-[#CBD7DB]" />
-          </div>
         </div>
       </section>
 
-      {/* =========================================================
-          SECTION 02 — PREMIUM CONTACT AREA
-      ========================================================== */}
-
-      <section className="relative px-5 pb-20 sm:px-8 lg:px-12 lg:pb-24">
-        <div className="mx-auto max-w-[1120px]">
-
-          {/* Small heading */}
-          <div className="mb-7 flex items-end justify-between gap-5">
-            <div>
-              <p
-                className="mb-2 text-[8px] font-semibold uppercase tracking-[0.24em] text-[#1677FF]"
-                style={{ fontFamily: "monospace" }}
-              >
-                Direct Access
-              </p>
-
-              <h2
-                className="text-[clamp(2.4rem,4vw,3.8rem)] font-normal leading-[0.9] tracking-[-0.06em]"
-                style={{
-                  fontFamily: "Georgia, 'Times New Roman', serif",
-                }}
-              >
-                Let&apos;s make{" "}
-                <span className="italic text-[#1677FF]">
-                  contact count.
-                </span>
-              </h2>
-            </div>
-          </div>
-
-          {/* =====================================================
-              TWO SEPARATE COMPACT CARDS
-          ====================================================== */}
-
-          <div className="grid items-center gap-6 lg:grid-cols-[0.78fr_1fr] lg:gap-8">
-
-            {/* ===================================================
-                LEFT CARD
-            ==================================================== */}
-
-            <div
-              className="group relative overflow-hidden rounded-[25px] border border-[#D5E5E9] shadow-[0_18px_50px_rgba(14,65,82,0.07)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_25px_65px_rgba(22,119,255,0.11)]"
-              style={{
-                background:
-                  "linear-gradient(145deg, #FFFFFF 0%, #F7FCFD 48%, #1da7d2 100%)",
-              }}
-            >
-              {/* Inner highlight */}
-              <div className="pointer-events-none absolute inset-[1px] rounded-[24px] border border-white/70" />
-
-              {/* Cyan glow */}
-              <div className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full bg-[#54D8FF]/20 blur-[70px] transition-all duration-700 group-hover:bg-[#54D8FF]/30" />
-
-              {/* Blue glow */}
-              <div className="pointer-events-none absolute -bottom-20 -left-16 h-44 w-44 rounded-full bg-[#1677FF]/[0.06] blur-[70px]" />
-
-              {/* Watermark */}
-              <div
-                className="pointer-events-none absolute right-[-5px] top-[-22px] select-none text-[135px] leading-none tracking-[-0.12em] text-[#0A1128]/[0.025]"
-                style={{
-                  fontFamily: "Georgia, serif",
-                }}
-              >
-                D
+      {/* Cards & Form */}
+      <section className="px-6 py-16 sm:px-10 sm:py-20 lg:px-16">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* Direct Official Channels */}
+            <div className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-xl border border-[#10141D]/10 shadow-sm space-y-6">
+              <div>
+                <h2 className="font-editorial-display text-2xl font-bold uppercase text-[#10141D]">
+                  Official Channels
+                </h2>
+                <p className="text-xs sm:text-sm text-[#556477] mt-1 leading-relaxed">
+                  Direct contacts for engineering inquiries, business services, community registrations, and partnerships.
+                </p>
               </div>
 
-              <div className="relative z-10 p-7 sm:p-8">
+              {/* Direct List */}
+              <div className="space-y-3 text-xs text-[#10141D] divide-y divide-[#10141D]/08">
+                <a
+                  href={`mailto:${brandData.email}`}
+                  className="pt-3 flex items-center justify-between group hover:text-[#C59B27] transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-[#FAF2DD] text-[#8F6B0A] border border-[#E8D39E] flex items-center justify-center">
+                      <Mail className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-[#718096] uppercase font-semibold">Email</div>
+                      <div className="font-bold">{brandData.email}</div>
+                    </div>
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 text-[#C59B27] opacity-60 group-hover:opacity-100" />
+                </a>
 
-                {/* Header */}
-                <div className="flex items-center justify-between">
-                  <span
-                    className="text-[8px] font-semibold uppercase tracking-[0.22em] text-[#7D8991]"
-                    style={{ fontFamily: "monospace" }}
-                  >
-                    CHANNELS 
-                  </span>
+                <a
+                  href={`tel:${brandData.phone.replace(/\s+/g, '')}`}
+                  className="pt-3 flex items-center justify-between group hover:text-[#C59B27] transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-[#FAF2DD] text-[#8F6B0A] border border-[#E8D39E] flex items-center justify-center">
+                      <Phone className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-[#718096] uppercase font-semibold">Phone</div>
+                      <div className="font-bold">{brandData.phone}</div>
+                    </div>
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 text-[#C59B27] opacity-60 group-hover:opacity-100" />
+                </a>
 
-                  <span
-                    className="rounded-full border border-[#D8E6E9] bg-white/75 px-2.5 py-1.5 text-[7px] font-semibold uppercase tracking-[0.13em] text-[#74818A]"
-                    style={{ fontFamily: "monospace" }}
-                  >
-                    Official
-                  </span>
-                </div>
+                <a
+                  href="https://chat.whatsapp.com/KS1XKI8X5dT4Kuxt4uL1S4"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="pt-3 flex items-center justify-between group hover:text-[#C59B27] transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-[#FAF2DD] text-[#8F6B0A] border border-[#E8D39E] flex items-center justify-center">
+                      <MessageCircle className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-[#718096] uppercase font-semibold">WhatsApp Community</div>
+                      <div className="font-bold">Builder Discussion Hub</div>
+                    </div>
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 text-[#C59B27] opacity-60 group-hover:opacity-100" />
+                </a>
 
-                {/* Main */}
-                <div className="mt-8">
+                <a
+                  href="https://www.linkedin.com/company/officialdecodep/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="pt-3 flex items-center justify-between group hover:text-[#C59B27] transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-[#FAF2DD] text-[#8F6B0A] border border-[#E8D39E] flex items-center justify-center">
+                      <Linkedin className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-[#718096] uppercase font-semibold">LinkedIn</div>
+                      <div className="font-bold">DECODEP</div>
+                    </div>
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 text-[#C59B27] opacity-60 group-hover:opacity-100" />
+                </a>
 
-                  <p
-                    className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#1677FF]"
-                    style={{ fontFamily: "monospace" }}
-                  >
-                    Communication
-                  </p>
+                <a
+                  href="https://www.instagram.com/officialdecodep"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="pt-3 flex items-center justify-between group hover:text-[#C59B27] transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-[#FAF2DD] text-[#8F6B0A] border border-[#E8D39E] flex items-center justify-center">
+                      <Instagram className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-[#718096] uppercase font-semibold">Instagram</div>
+                      <div className="font-bold">@officialdecodep</div>
+                    </div>
+                  </div>
+                  <ArrowUpRight className="w-4 h-4 text-[#C59B27] opacity-60 group-hover:opacity-100" />
+                </a>
+              </div>
 
-                  <h3
-                    className="text-[clamp(2.4rem,4vw,3.6rem)] font-normal leading-[0.9] tracking-[-0.06em]"
-                    style={{
-                      fontFamily: "Georgia, 'Times New Roman', serif",
-                    }}
-                  >
-                    Find
-                    <br />
+              {/* Status Indicator */}
+              <div className="pt-3 border-t border-[#10141D]/10 flex items-center gap-2 text-xs text-[#556477]">
+                <span className="w-2 h-2 rounded-full bg-[#C59B27] animate-pulse" />
+                <span>Available for client projects & community alliances</span>
+              </div>
+            </div>
 
-                    <span className="italic text-[#1677FF]">
-                      DECODEP.
-                    </span>
+            {/* Interactive Form */}
+            <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-xl border border-[#10141D]/10 shadow-sm">
+              <div className="pb-4 border-b border-[#10141D]/10 mb-6">
+                <h2 className="font-editorial-display text-2xl font-bold uppercase text-[#10141D]">
+                  Send Us A Message
+                </h2>
+                <p className="text-xs sm:text-sm text-[#556477] mt-1">
+                  Fill out the form below and our team will get back to you promptly.
+                </p>
+              </div>
+
+              {isSubmitted ? (
+                <div className="text-center py-10 space-y-4">
+                  <div className="w-14 h-14 bg-[#FAF0D6] text-[#8F6B0A] rounded-full flex items-center justify-center mx-auto">
+                    <Check className="w-7 h-7" />
+                  </div>
+                  <h3 className="font-editorial-display text-2xl font-bold uppercase text-[#10141D]">
+                    Message Sent
                   </h3>
-
-                  <p className="mt-4 max-w-[310px] text-[10px] leading-5 text-[#7A858D]">
-                    Connect with our official channels for projects,
-                    collaborations, community and opportunities.
+                  <p className="text-sm text-[#556477] max-w-md mx-auto leading-relaxed">
+                    Thank you for reaching out. The DECODEP team will contact you shortly via email or phone.
                   </p>
-                </div>
-
-                {/* Social links */}
-                <div className="mt-6 border-t border-[#DCE8EB]">
-
-                  <SocialLink
-                    icon={
-                      <Instagram
-                        size={15}
-                        strokeWidth={1.5}
-                      />
-                    }
-                    platform="Instagram"
-                    handle="@officialdecodep"
-                    href="https://www.instagram.com/officialdecodep"
-                  />
-
-                  <SocialLink
-                    icon={
-                      <Linkedin
-                        size={15}
-                        strokeWidth={1.5}
-                      />
-                    }
-                    platform="LinkedIn"
-                    handle="DECODEP"
-                    href="https://www.linkedin.com/company/officialdecodep/"
-                  />
-
-                  <SocialLink
-                    icon={
-                      <Mail
-                        size={15}
-                        strokeWidth={1.5}
-                      />
-                    }
-                    platform="Official Email"
-                    handle={DECODEP_EMAIL}
-                    href={`mailto:${DECODEP_EMAIL}`}
-                  />
-
-                  <SocialLink
-                    icon={
-                      <MessageCircle
-                        size={15}
-                        strokeWidth={1.5}
-                      />
-                    }
-                    platform="WhatsApp"
-                    handle="Direct Enquiries"
-                    href="https://chat.whatsapp.com/KS1XKI8X5dT4Kuxt4uL1S4"
-                    last
-                  />
-
-                </div>
-
-                {/* Status */}
-                <div className="mt-5 flex items-center gap-2 border-t border-[#DCE8EB] pt-4">
-
-                  <span className="relative flex h-1.5 w-1.5">
-                    <span className="absolute h-full w-full animate-ping rounded-full bg-[#28B879]/50" />
-                    <span className="relative h-1.5 w-1.5 rounded-full bg-[#28B879]" />
-                  </span>
-
-                  <span
-                    className="text-[10px] font-semibold uppercase tracking-[0.15em] text-[#71808A]"
-                    style={{ fontFamily: "monospace" }}
-                  >
-                    Available for collaboration
-                  </span>
-
-                </div>
-              </div>
-            </div>
-
-            {/* ===================================================
-                RIGHT CARD
-            ==================================================== */}
-
-            <div
-              className="group relative overflow-hidden rounded-[27px] border border-[#D2E3E7] shadow-[0_20px_55px_rgba(14,65,82,0.075)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(22,119,255,0.12)]"
-              style={{
-                background:
-                  "linear-gradient(145deg, #FFFFFF 0%, #F5FBFC 52%, #e4e00bf0 100%)",
-              }}
-            >
-              {/* Inner highlight */}
-              <div className="pointer-events-none absolute inset-[1px] rounded-[26px] border border-white/80" />
-
-              {/* Blue glow */}
-              <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#54D8FF]/16 blur-[80px] transition-all duration-700 group-hover:bg-[#54D8FF]/25" />
-
-              {/* Cyan glow */}
-              <div className="pointer-events-none absolute -bottom-20 -left-20 h-52 w-52 rounded-full bg-[#1677FF]/[0.055] blur-[80px]" />
-
-              {/* Decorative ring */}
-              <div className="pointer-events-none absolute right-[-65px] top-[75px] h-[190px] w-[190px] rounded-full border border-[#1677FF]/[0.05]" />
-
-              <div className="relative z-10 p-7 sm:p-8 lg:p-9">
-
-                {/* Header */}
-                <div className="flex items-center justify-between">
-
-                  <span
-                    className="text-[8px] font-semibold uppercase tracking-[0.22em] text-[#7D8991]"
-                    style={{ fontFamily: "monospace" }}
-                  >
-                    CONVERSATION
-                  </span>
-
-                  <div className="flex items-center gap-2 rounded-full border border-[#D8E5E8] bg-white/80 px-2.5 py-1.5">
-
-                    <span className="relative flex h-1.5 w-1.5">
-                      <span className="absolute h-full w-full animate-ping rounded-full bg-[#28B879]/50" />
-                      <span className="relative h-1.5 w-1.5 rounded-full bg-[#28B879]" />
-                    </span>
-
-                    <span
-                      className="text-[7px] font-semibold uppercase tracking-[0.14em] text-[#71808A]"
-                      style={{ fontFamily: "monospace" }}
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={resetForm}
+                      className="px-6 py-2.5 bg-[#10141D] hover:bg-[#C59B27] text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all"
                     >
-                      Open
-                    </span>
-
+                      Send Another Message
+                    </button>
                   </div>
                 </div>
-
-                {/* Heading */}
-                <div className="mt-8">
-
-                  <p
-                    className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#1677FF]"
-                    style={{ fontFamily: "monospace" }}
-                  >
-                    Start a Conversation
-                  </p>
-
-                  <h3
-                    className="text-[clamp(3rem,4vw,4rem)] font-normal leading-[0.89] tracking-[-0.06em]"
-                    style={{
-                      fontFamily: "Georgia, 'Times New Roman', serif",
-                    }}
-                  >
-                    Let&apos;s start
-                    <br />
-
-                    <span className="italic text-[#1677FF]">
-                      something
-                    </span>
-                  </h3>
-
-                  <p className="mt-4 max-w-[470px] text-[10px] leading-5 text-[#7A858D]">
-                    Tell us what you&apos;re building, planning, or
-                    exploring. We&apos;ll take it from there.
-                  </p>
-                </div>
-
-                {/* Form */}
-                {isSubmitted ? (
-                  <SuccessState onReset={resetForm} />
-                ) : (
-                  <form
-                    onSubmit={handleSubmit}
-                    className="mt-7"
-                  >
-
-                    {/* Name + Email */}
-                    <div className="grid gap-4 sm:grid-cols-2">
-
-                      <LightInput
-                        label="Your Name"
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-[#556477] mb-1">
+                        Full Name *
+                      </label>
+                      <input
+                        type="text"
                         name="name"
+                        required
                         value={form.name}
                         onChange={handleChange}
-                        placeholder="Your name"
-                        required
+                        placeholder="Your full name"
+                        className="w-full px-3.5 py-2.5 rounded-lg border border-[#10141D]/15 bg-white text-[#10141D] placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C59B27]/40 text-sm"
                       />
+                    </div>
 
-                      <LightInput
-                        label="Email"
-                        name="email"
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-[#556477] mb-1">
+                        Email Address *
+                      </label>
+                      <input
                         type="email"
+                        name="email"
+                        required
                         value={form.email}
                         onChange={handleChange}
                         placeholder="you@example.com"
-                        required
+                        className="w-full px-3.5 py-2.5 rounded-lg border border-[#10141D]/15 bg-white text-[#10141D] placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C59B27]/40 text-sm"
                       />
-
                     </div>
+                  </div>
 
-                    {/* Phone + Category */}
-                    <div className="mt-4 grid gap-4 sm:grid-cols-2">
-
-                      <LightInput
-                        label="Phone"
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-[#556477] mb-1">
+                        Phone Number
+                      </label>
+                      <input
+                        type="tel"
                         name="phone"
                         value={form.phone}
                         onChange={handleChange}
                         placeholder="+91 XXXXX XXXXX"
+                        className="w-full px-3.5 py-2.5 rounded-lg border border-[#10141D]/15 bg-white text-[#10141D] placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C59B27]/40 text-sm"
                       />
-
-                      <div>
-                        <label
-                          className="mb-2 block text-[7px] font-semibold uppercase tracking-[0.18em] text-[#7D8991]"
-                          style={{ fontFamily: "monospace" }}
-                        >
-                          Inquiry Topic
-                        </label>
-
-                        <div className="relative">
-
-                          <select
-                            name="category"
-                            value={form.category}
-                            onChange={handleChange}
-                            className="w-full appearance-none rounded-lg border border-[#D6E2E6] bg-white px-3 py-2.5 pr-8 text-[10px] text-[#202932] outline-none transition-all duration-300 focus:border-[#1677FF] focus:shadow-[0_0_0_3px_rgba(22,119,255,0.05)]"
-                          >
-                            <option>
-                              Business / Project
-                            </option>
-
-                            <option>
-                              Community Collaboration
-                            </option>
-
-                            <option>
-                              Hackathon / Event
-                            </option>
-
-                            <option>
-                              General Enquiry
-                            </option>
-                          </select>
-
-                          <ArrowUpRight
-                            size={12}
-                            className="pointer-events-none absolute right-3 top-3 rotate-45 text-[#89959D]"
-                          />
-
-                        </div>
-                      </div>
                     </div>
 
-                    {/* Message */}
-                    <div className="mt-4">
-
-                      <label
-                        className="mb-2 block text-[7px] font-semibold uppercase tracking-[0.18em] text-[#7D8991]"
-                        style={{ fontFamily: "monospace" }}
-                      >
-                        Message Details
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-[#556477] mb-1">
+                        Inquiry Type
                       </label>
-
-                      <textarea
-                        name="message"
-                        value={form.message}
+                      <select
+                        name="category"
+                        value={form.category}
                         onChange={handleChange}
-                        required
-                        rows={3}
-                        placeholder="How can we assist you?"
-                        className="w-full resize-none rounded-lg border border-[#D6E2E6] bg-white px-3 py-2.5 text-[10px] leading-5 text-[#202932] outline-none transition-all duration-300 placeholder:text-[#A1ACB3] focus:border-[#1677FF] focus:shadow-[0_0_0_3px_rgba(22,119,255,0.05)]"
-                      />
-
-                    </div>
-
-                    {/* Button */}
-                    <button
-                      type="submit"
-                      disabled={isSending}
-                      className="group/send mt-5 flex min-h-[45px] w-full items-center justify-center gap-2 rounded-full bg-[#0A1017] px-6 text-[8px] font-bold uppercase tracking-[0.19em] text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1677FF] hover:shadow-[0_12px_28px_rgba(22,119,255,0.18)] disabled:cursor-not-allowed disabled:opacity-60"
-                    >
-                      {isSending ? (
-                        <>
-                          <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                          Sending
-                        </>
-                      ) : (
-                        <>
-                          Send Message
-
-                          <ArrowUpRight
-                            size={13}
-                            strokeWidth={1.8}
-                            className="transition-transform duration-300 group-hover/send:-translate-y-0.5 group-hover/send:translate-x-0.5"
-                          />
-                        </>
-                      )}
-                    </button>
-
-                    {/* Footer */}
-                    <div className="mt-3 flex items-center justify-between">
-                      <span
-                        className="text-[10px] uppercase tracking-[0.15em] text-[#98A4AA]"
-                        style={{ fontFamily: "monospace" }}
+                        className="w-full px-3.5 py-2.5 rounded-lg border border-[#10141D]/15 bg-white text-[#10141D] focus:outline-none focus:ring-2 focus:ring-[#C59B27]/40 text-sm"
                       >
-                        DECODEP / DIRECT
-                      </span>
-
-                      <span
-                        className="text-[10px] uppercase tracking-[0.15em] text-[#98A4AA]"
-                        style={{ fontFamily: "monospace" }}
-                      >
-                        Response Channel
-                      </span>
+                        <option value="Business / Project">Business / Client Project</option>
+                        <option value="Community Collaboration">Community MoU / Partnership</option>
+                        <option value="Hackathon / Event">Hackathon / Speaker Inquiry</option>
+                        <option value="General Enquiry">General Inquiry</option>
+                      </select>
                     </div>
+                  </div>
 
-                  </form>
-                )}
-              </div>
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-[#556477] mb-1">
+                      Message *
+                    </label>
+                    <textarea
+                      name="message"
+                      required
+                      rows={4}
+                      value={form.message}
+                      onChange={handleChange}
+                      placeholder="Please describe your requirements, ideas, or proposal..."
+                      className="w-full px-3.5 py-2.5 rounded-lg border border-[#10141D]/15 bg-white text-[#10141D] placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C59B27]/40 text-sm resize-none"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isSending}
+                    className="w-full py-3 px-6 bg-[#10141D] hover:bg-[#C59B27] text-white font-bold rounded-lg transition-all shadow-sm text-xs uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-60"
+                  >
+                    {isSending ? (
+                      <>
+                        <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <span>Sending Message...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Send Message</span>
+                        <Send className="w-3.5 h-3.5" />
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
-
-          {/* Bottom metadata */}
-          <div className="mt-5 flex items-center justify-between px-1 text-[6px] uppercase tracking-[0.18em] text-[#A0ABB1]">
-            <span>DECODEP — TECHNOLOGY × COMMUNITY</span>
-            <span>BUILD • CONNECT • GROW</span>
-          </div>
-
         </div>
       </section>
     </main>
-  );
-}
-
-/* =============================================================
-   SOCIAL LINK
-============================================================= */
-
-function SocialLink({
-  icon,
-  platform,
-  handle,
-  href,
-  last = false,
-}: SocialLinkProps) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      className={`group/social flex items-center justify-between py-3 transition-all duration-300 ${
-        last ? "" : "border-b border-[#E2EAED]"
-      }`}
-    >
-      <div className="flex items-center gap-3">
-
-        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#D9E5E8] bg-white/75 text-[#65727B] transition-all duration-300 group-hover/social:border-[#1677FF] group-hover/social:bg-[#1677FF] group-hover/social:text-white">
-          {icon}
-        </div>
-
-        <div>
-          <p className="text-[10px] font-semibold text-[#151C23] transition-colors duration-300 group-hover/social:text-[#1677FF]">
-            {platform}
-          </p>
-
-          <p className="mt-0.5 text-[7px] text-[#8A959D]">
-            {handle}
-          </p>
-        </div>
-      </div>
-
-      <div className="flex h-6 w-6 items-center justify-center rounded-full text-[#A1ACB3] transition-all duration-300 group-hover/social:bg-[#EEF7FA] group-hover/social:text-[#1677FF]">
-        <ArrowUpRight
-          size={12}
-          strokeWidth={1.5}
-          className="transition-transform duration-300 group-hover/social:-translate-y-0.5 group-hover/social:translate-x-0.5"
-        />
-      </div>
-    </a>
-  );
-}
-
-/* =============================================================
-   LIGHT INPUT
-============================================================= */
-
-function LightInput({
-  label,
-  name,
-  value,
-  onChange,
-  placeholder,
-  type = "text",
-  required = false,
-}: InputProps) {
-  return (
-    <div>
-      <label
-        className="mb-2 block text-[7px] font-semibold uppercase tracking-[0.18em] text-[#7D8991]"
-        style={{ fontFamily: "monospace" }}
-      >
-        {label}
-      </label>
-
-      <input
-        type={type}
-        name={name}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        required={required}
-        className="w-full rounded-lg border border-[#D6E2E6] bg-white px-3 py-2.5 text-[10px] text-[#202932] outline-none transition-all duration-300 placeholder:text-[#A1ACB3] focus:border-[#1677FF] focus:shadow-[0_0_0_3px_rgba(22,119,255,0.05)]"
-      />
-    </div>
-  );
-}
-
-/* =============================================================
-   HERO TAG
-============================================================= */
-
-function HeroTag({ text }: { text: string }) {
-  return (
-    <span
-      className="rounded-full border border-[#D7E3E7] bg-white/80 px-3.5 py-1.5 text-[7px] font-semibold tracking-[0.16em] text-[#71808A] backdrop-blur-sm"
-      style={{ fontFamily: "monospace" }}
-    >
-      {text}
-    </span>
-  );
-}
-
-/* =============================================================
-   SUCCESS STATE
-============================================================= */
-
-function SuccessState({
-  onReset,
-}: {
-  onReset: () => void;
-}) {
-  return (
-    <div className="mt-7 flex min-h-[270px] flex-col items-center justify-center border-t border-[#DCE7EA] pt-7 text-center">
-
-      <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-[#CBECDD] bg-[#F2FCF7]">
-        <Check
-          size={21}
-          strokeWidth={1.7}
-          className="text-[#22A86A]"
-        />
-      </div>
-
-      <p
-        className="text-[7px] font-semibold uppercase tracking-[0.22em] text-[#22A86A]"
-        style={{ fontFamily: "monospace" }}
-      >
-        Message Dispatched
-      </p>
-
-      <h3
-        className="mt-4 text-[clamp(2rem,3.5vw,3rem)] font-normal leading-[0.92] tracking-[-0.055em]"
-        style={{
-          fontFamily: "Georgia, 'Times New Roman', serif",
-        }}
-      >
-        Thanks for
-        <br />
-
-        <span className="italic text-[#1677FF]">
-          reaching out.
-        </span>
-      </h3>
-
-      <p className="mt-4 max-w-[320px] text-[10px] leading-5 text-[#7C878F]">
-        Your message has been received. The DECODEP team will
-        get back to you soon.
-      </p>
-
-      <button
-        type="button"
-        onClick={onReset}
-        className="mt-5 rounded-full border border-[#D1DEE2] px-4 py-2 text-[7px] font-semibold uppercase tracking-[0.16em] text-[#69767F] transition-all duration-300 hover:border-[#1677FF] hover:text-[#1677FF]"
-      >
-        Send Another Message
-      </button>
-    </div>
-  );
+  )
 }

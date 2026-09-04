@@ -1,921 +1,160 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import {
-  ArrowUpRight,
-  Code2,
-  Users,
-  ArrowRight,
-  Sparkles,
-} from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Users } from 'lucide-react'
 
 export const BrandSplitSection: React.FC = () => {
   return (
-    <section
-      id="brand-architecture"
-      className="
-        relative
-        overflow-hidden
-        bg-[#FAFBFC]
-        text-[#0A1128]
-        border-b
-        border-slate-200/80
-        py-12
-        sm:py-14
-        lg:py-16
-      "
-    >
-
-      {/* ============================================================
-          BACKGROUND
-      ============================================================ */}
-
-      <div
-        className="
-          absolute
-          inset-0
-          tech-grid-light
-          opacity-[0.22]
-          pointer-events-none
-        "
-      />
-
-      {/* Soft central glow */}
-
-      <div
-        className="
-          absolute
-          left-1/2
-          top-1/2
-          h-[420px]
-          w-[700px]
-          -translate-x-1/2
-          -translate-y-1/2
-          rounded-full
-          bg-[radial-gradient(circle,rgba(37,99,235,0.045),transparent_68%)]
-          pointer-events-none
-        "
-      />
-
-      {/* Vertical architecture lines */}
-
-      <div
-        className="
-          absolute
-          left-6
-          top-0
-          h-full
-          w-px
-          bg-slate-200/60
-          pointer-events-none
-          sm:left-8
-          lg:left-12
-        "
-      />
-
-      <div
-        className="
-          absolute
-          right-6
-          top-0
-          h-full
-          w-px
-          bg-slate-200/60
-          pointer-events-none
-          sm:right-8
-          lg:right-12
-        "
-      />
-
-
-      {/* ============================================================
-          CONTAINER
-      ============================================================ */}
-
-      <div
-        className="
-          relative
-          z-10
-          mx-auto
-          max-w-[1420px]
-          px-8
-          sm:px-10
-          lg:px-14
-          xl:px-16
-        "
-      >
-
-        {/* ============================================================
-            HEADER
-        ============================================================ */}
-
-        <div
-          className="
-            flex
-            flex-col
-            gap-6
-            lg:flex-row
-            lg:items-end
-            lg:justify-between
-          "
-        >
-
-          {/* Left */}
-
-          <div>
-
-            <div className="mb-3 flex items-center gap-3">
-
-              <span className="h-px w-8 bg-[#1677FF]" />
-
-              <span
-                className="
-                  font-mono
-                  text-[9px]
-                  font-bold
-                  uppercase
-                  tracking-[0.22em]
-                  text-[#64748B]
-                "
-              >
-                01 / BRAND ARCHITECTURE
-              </span>
-
-            </div>
-
-
-            <h2
-              className="
-                font-display
-                text-[clamp(2.5rem,5vw,4.2rem)]
-                font-black
-                uppercase
-                leading-[0.82]
-                tracking-[-0.06em]
-              "
-            >
-              ONE CORE.
-              <br />
-
-              <span className="text-[#1677FF]">
-                TWO PATHS.
-              </span>
-            </h2>
-
+    <section className="relative bg-[#FAF8F5] bg-grid-subtle text-[#111827] border-b border-[#111827]/10 py-16 sm:py-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+        
+        {/* Header */}
+        <div className="mb-14 text-center max-w-2xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF2DD] text-[#8F6B0A] border border-[#E8D39E] text-xs font-mono font-medium uppercase tracking-wider">
+            <span>Brand Architecture</span>
           </div>
+          <h2 className="font-display text-3xl sm:text-4xl font-black uppercase tracking-tight text-[#111827]">
+            One Venture. Two Worlds.
+          </h2>
         </div>
 
+        {/* Cards Container */}
+        <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
 
-        {/* ============================================================
-            CORE + PATHS
-        ============================================================ */}
-
-        <div className="relative mt-9 lg:mt-11">
-
-
-          {/* ========================================================
-              DESKTOP CONNECTOR
-          ======================================================== */}
-
-          <div
-            className="
-              pointer-events-none
-              absolute
-              left-1/2
-              top-0
-              hidden
-              h-full
-              w-px
-              -translate-x-1/2
-              lg:block
-            "
+          {/* CARD 1: TECH */}
+          <Link
+            to="/company"
+            className="group relative bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-[#1677FF]/40 transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[380px]"
           >
+            {/* Top Blue Accent Bar */}
+            <div className="absolute top-0 left-8 sm:left-10 w-24 sm:w-28 h-1 bg-[#1677FF] rounded-b-sm" />
 
-            {/* Top line */}
+            {/* Giant Faint Number Watermark */}
+            <div className="absolute -bottom-6 right-3 sm:right-6 font-sans font-black text-[130px] sm:text-[160px] text-slate-100/90 leading-none select-none pointer-events-none z-0">
+              01
+            </div>
 
-            <div
-              className="
-                absolute
-                left-0
-                top-0
-                h-10
-                w-px
-                bg-gradient-to-b
-                from-[#1677FF]
-                to-slate-300
-              "
-            />
+            {/* Top Row: Icon + Meta & Arrow Button */}
+            <div className="relative z-10 flex items-start justify-between gap-4">
+              <div className="flex items-center gap-3.5">
+                {/* </> Icon Box */}
+                <div className="w-12 h-12 rounded-2xl bg-[#EFF6FF] text-[#1677FF] flex items-center justify-center font-mono font-bold text-base shadow-xs shrink-0">
+                  &lt;/&gt;
+                </div>
+                <div>
+                  <div className="text-xs font-mono font-bold tracking-wider text-[#1677FF]">
+                    01 <span className="text-slate-400 font-normal">/</span> TECHNOLOGY <span className="text-slate-300">•</span> <span className="text-slate-500 font-medium">BUILD</span>
+                  </div>
+                  <div className="text-[11px] font-mono tracking-widest text-[#64748B] uppercase font-semibold mt-0.5">
+                    DIGITAL VENTURE
+                  </div>
+                </div>
+              </div>
 
-            {/* Core */}
-
-            <div
-              className="
-                absolute
-                left-1/2
-                top-10
-                flex
-                h-11
-                w-11
-                -translate-x-1/2
-                items-center
-                justify-center
-                rounded-full
-                border
-                border-slate-200
-                bg-white
-                shadow-[0_5px_20px_rgba(10,17,40,0.08)]
-              "
-            >
-              <div
-                className="
-                  flex
-                  h-7
-                  w-7
-                  items-center
-                  justify-center
-                  rounded-full
-                  bg-[#0A1128]
-                "
-              >
-                <Sparkles
-                  className="h-3.5 w-3.5 text-white"
-                />
+              {/* Arrow Up-Right Circle Button */}
+              <div className="w-10 h-10 rounded-full border border-slate-200 bg-white group-hover:bg-[#1677FF] group-hover:border-[#1677FF] text-slate-400 group-hover:text-white flex items-center justify-center transition-all duration-300 shrink-0 shadow-2xs">
+                <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </div>
             </div>
 
-            {/* Bottom branch */}
+            {/* Middle Section: Eyebrow, Main Title, Subtitle */}
+            <div className="relative z-10 my-8 sm:my-10 space-y-2">
+              <div className="text-xs font-mono font-bold tracking-[0.2em] text-[#64748B] uppercase">
+                THE TECHNOLOGY ARM
+              </div>
+              <h3 className="font-sans text-4xl sm:text-5xl font-black uppercase tracking-tight text-[#0F172A]">
+                TECH
+              </h3>
+              <p className="text-base sm:text-lg text-[#475569] font-medium pt-1">
+                Digital Solutions & Products
+              </p>
+            </div>
 
-            <div
-              className="
-                absolute
-                left-0
-                top-[62px]
-                h-[calc(100%-62px)]
-                w-px
-                bg-slate-300
-              "
-            />
-
-          </div>
-
-
-          {/* ========================================================
-              CARDS
-          ======================================================== */}
-
-          <div
-            className="
-              grid
-              grid-cols-1
-              gap-4
-              lg:grid-cols-2
-              lg:gap-20
-            "
-          >
-
-            {/* ======================================================
-                COMPANY
-            ====================================================== */}
-
-            <Link
-              to="/company"
-              className="
-                group
-                relative
-                overflow-hidden
-                rounded-2xl
-                border
-                border-slate-200
-                bg-white
-                shadow-[0_8px_30px_rgba(10,17,40,0.04)]
-                transition-all
-                duration-500
-                hover:-translate-y-1
-                hover:border-[#BFD7FF]
-                hover:shadow-[0_18px_45px_rgba(22,119,255,0.11)]
-              "
-            >
-
-              {/* Accent */}
-
-              <div
-                className="
-                  absolute
-                  left-0
-                  top-0
-                  h-[3px]
-                  w-24
-                  bg-[#1677FF]
-                  transition-all
-                  duration-500
-                  group-hover:w-40
-                "
-              />
-
-
-              {/* Background Number */}
-
-              <span
-                className="
-                  pointer-events-none
-                  absolute
-                  -right-3
-                  bottom-[-28px]
-                  select-none
-                  font-display
-                  text-[150px]
-                  font-black
-                  leading-none
-                  tracking-[-0.08em]
-                  text-slate-100/70
-                  transition-all
-                  duration-500
-                  group-hover:text-[#EEF5FF]
-                "
-              >
-                01
-              </span>
-
-
-              <div className="relative z-10 p-5 sm:p-6 lg:p-7">
-
-                {/* Top */}
-
-                <div className="flex items-center justify-between">
-
-                  <div className="flex items-center gap-3">
-
-                    <div
-                      className="
-                        flex
-                        h-10
-                        w-10
-                        items-center
-                        justify-center
-                        rounded-xl
-                        border
-                        border-[#D6E6FF]
-                        bg-[#EEF5FF]
-                        transition-transform
-                        duration-500
-                        group-hover:scale-105
-                      "
-                    >
-                      <Code2
-                        className="h-4.5 w-4.5 text-[#1677FF]"
-                      />
-                    </div>
-
-
-                    <div>
-
-                      <div className="flex items-center gap-2">
-
-                        <span
-                          className="
-                            font-mono
-                            text-[8px]
-                            font-bold
-                            uppercase
-                            tracking-[0.2em]
-                            text-[#1677FF]
-                          "
-                        >
-                          01 / TECHNOLOGY
-                        </span>
-
-                        <span className="h-1 w-1 rounded-full bg-[#1677FF]" />
-
-                        <span
-                          className="
-                            font-mono
-                            text-[8px]
-                            uppercase
-                            tracking-wider
-                            text-[#94A3B8]
-                          "
-                        >
-                          BUILD
-                        </span>
-
-                      </div>
-
-                      <p
-                        className="
-                          mt-0.5
-                          text-[9px]
-                          uppercase
-                          tracking-wide
-                          text-[#94A3B8]
-                        "
-                      >
-                        Digital Venture
-                      </p>
-
-                    </div>
-
-                  </div>
-
-
-                  {/* Arrow */}
-
-                  <div
-                    className="
-                      flex
-                      h-8
-                      w-8
-                      items-center
-                      justify-center
-                      rounded-full
-                      border
-                      border-slate-200
-                      transition-all
-                      duration-300
-                      group-hover:border-[#BFD7FF]
-                      group-hover:bg-[#EEF5FF]
-                    "
-                  >
-                    <ArrowUpRight
-                      className="
-                        h-4
-                        w-4
-                        text-[#94A3B8]
-                        transition-all
-                        duration-300
-                        group-hover:-translate-y-0.5
-                        group-hover:translate-x-0.5
-                        group-hover:text-[#1677FF]
-                      "
-                    />
-                  </div>
-
-                </div>
-
-
-                {/* Main */}
-
-                <div className="mt-7">
-
-                  <p
-                    className="
-                      mb-2
-                      font-mono
-                      text-[9px]
-                      font-semibold
-                      uppercase
-                      tracking-[0.18em]
-                      text-[#94A3B8]
-                    "
-                  >
-                    THE TECHNOLOGY ARM
-                  </p>
-
-
-                  <h3
-                    className="
-                      font-display
-                      text-[clamp(2rem,3.5vw,3rem)]
-                      font-black
-                      uppercase
-                      leading-[0.86]
-                      tracking-[-0.055em]
-                      text-[#0A1128]
-                    "
-                  >
-                    
-                    <br />
-                    TECH
-                  </h3>
-
-
-                  <p
-                    className="
-                      mt-3
-                      max-w-md
-                      text-xs
-                      leading-5
-                      text-[#64748B]
-                      sm:text-sm
-                    "
-                  >
-                   Digital Solutions & Products
-                  </p>
-
-                </div>
-
-
-                {/* Bottom */}
-
-                <div
-                  className="
-                    relative
-                    mt-6
-                    flex
-                    items-center
-                    justify-between
-                    border-t
-                    border-slate-200
-                    pt-3.5
-                  "
-                >
-
-                  <div className="flex items-center gap-2">
-
-                    <span className="font-mono text-[8px] text-[#475569]">
-                      WEB
-                    </span>
-
-                    <span className="h-1 w-1 rounded-full bg-[#1677FF]" />
-
-                    <span className="font-mono text-[8px] text-[#475569]">
-                      MOBILE
-                    </span>
-
-                    <span className="h-1 w-1 rounded-full bg-[#1677FF]" />
-
-                    <span className="font-mono text-[8px] text-[#475569]">
-                      DIGITAL
-                    </span>
-
-                  </div>
-
-
-                  <span
-                    className="
-                      flex
-                      items-center
-                      gap-1.5
-                      font-mono
-                      text-[8px]
-                      font-bold
-                      uppercase
-                      tracking-[0.15em]
-                      text-[#1677FF]
-                      transition-all
-                      duration-300
-                      group-hover:gap-2.5
-                    "
-                  >
-                    Explore
-                    <ArrowRight className="h-3 w-3" />
-                  </span>
-
-                </div>
-
+            {/* Bottom Row: Tags & Action */}
+            <div className="relative z-10 pt-5 border-t border-slate-100 flex items-center justify-between gap-2">
+              <div className="text-xs font-mono font-semibold tracking-wider text-[#64748B] uppercase flex items-center gap-1.5">
+                <span>WEB</span>
+                <span className="text-slate-300">•</span>
+                <span>MOBILE</span>
+                <span className="text-slate-300">•</span>
+                <span>DIGITAL</span>
               </div>
 
-            </Link>
+              <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold tracking-wider text-[#1677FF] uppercase group-hover:translate-x-1 transition-transform">
+                <span>EXPLORE</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </div>
+            </div>
+          </Link>
 
+          {/* CARD 2: COMMUNITY */}
+          <Link
+            to="/community"
+            className="group relative bg-white rounded-3xl p-8 sm:p-10 border border-[#FDE68A] shadow-sm hover:shadow-xl hover:border-[#D97706]/50 transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[380px]"
+          >
+            {/* Top Amber Accent Bar */}
+            <div className="absolute top-0 right-8 sm:right-10 w-24 sm:w-28 h-1 bg-[#F59E0B] rounded-b-sm" />
 
-            {/* ======================================================
+            {/* Giant Faint Number Watermark */}
+            <div className="absolute -bottom-6 right-3 sm:right-6 font-sans font-black text-[130px] sm:text-[160px] text-[#FEF3C7]/40 leading-none select-none pointer-events-none z-0">
+              02
+            </div>
+
+            {/* Top Row: Icon + Meta & Arrow Button */}
+            <div className="relative z-10 flex items-start justify-between gap-4">
+              <div className="flex items-center gap-3.5">
+                {/* Users Icon Box */}
+                <div className="w-12 h-12 rounded-2xl bg-[#FEF3C7] text-[#D97706] flex items-center justify-center shadow-xs shrink-0">
+                  <Users className="w-5 h-5 text-[#D97706]" />
+                </div>
+                <div>
+                  <div className="text-xs font-mono font-bold tracking-wider text-[#D97706]">
+                    02 <span className="text-amber-300 font-normal">/</span> COMMUNITY <span className="text-amber-300">•</span> <span className="text-slate-500 font-medium">GROW</span>
+                  </div>
+                  <div className="text-[11px] font-mono tracking-widest text-[#64748B] uppercase font-semibold mt-0.5">
+                    OPEN ECOSYSTEM
+                  </div>
+                </div>
+              </div>
+
+              {/* Arrow Up-Right Circle Button */}
+              <div className="w-10 h-10 rounded-full border border-[#FDE68A] bg-[#FEF3C7]/40 group-hover:bg-[#D97706] group-hover:border-[#D97706] text-[#D97706] group-hover:text-white flex items-center justify-center transition-all duration-300 shrink-0 shadow-2xs">
+                <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </div>
+            </div>
+
+            {/* Middle Section: Eyebrow, Main Title, Subtitle */}
+            <div className="relative z-10 my-8 sm:my-10 space-y-2">
+              <div className="text-xs font-mono font-bold tracking-[0.2em] text-[#64748B] uppercase">
+                THE PEOPLE ARM
+              </div>
+              <h3 className="font-sans text-4xl sm:text-5xl font-black uppercase tracking-tight text-[#0F172A]">
                 COMMUNITY
-            ====================================================== */}
+              </h3>
+              <p className="text-base sm:text-lg text-[#475569] font-medium pt-1">
+                Developers & Technology Ecosystem
+              </p>
+            </div>
 
-            <Link
-              to="/community"
-              className="
-                group
-                relative
-                overflow-hidden
-                rounded-2xl
-                border
-                border-slate-200
-                bg-white
-                shadow-[0_8px_30px_rgba(10,17,40,0.04)]
-                transition-all
-                duration-500
-                hover:-translate-y-1
-                hover:border-[#F4DE9D]
-                hover:shadow-[0_18px_45px_rgba(245,183,44,0.11)]
-              "
-            >
-
-              {/* Accent */}
-
-              <div
-                className="
-                  absolute
-                  right-0
-                  top-0
-                  h-[3px]
-                  w-24
-                  bg-[#F5B72C]
-                  transition-all
-                  duration-500
-                  group-hover:w-40
-                "
-              />
-
-
-              {/* Background Number */}
-
-              <span
-                className="
-                  pointer-events-none
-                  absolute
-                  -right-3
-                  bottom-[-28px]
-                  select-none
-                  font-display
-                  text-[150px]
-                  font-black
-                  leading-none
-                  tracking-[-0.08em]
-                  text-slate-100/70
-                  transition-all
-                  duration-500
-                  group-hover:text-[#FFF8E8]
-                "
-              >
-                02
-              </span>
-
-
-              <div className="relative z-10 p-5 sm:p-6 lg:p-7">
-
-                {/* Top */}
-
-                <div className="flex items-center justify-between">
-
-                  <div className="flex items-center gap-3">
-
-                    <div
-                      className="
-                        flex
-                        h-10
-                        w-10
-                        items-center
-                        justify-center
-                        rounded-xl
-                        border
-                        border-[#F7E5AE]
-                        bg-[#FFF8E8]
-                        transition-transform
-                        duration-500
-                        group-hover:scale-105
-                      "
-                    >
-                      <Users
-                        className="h-4.5 w-4.5 text-[#B47D00]"
-                      />
-                    </div>
-
-
-                    <div>
-
-                      <div className="flex items-center gap-2">
-
-                        <span
-                          className="
-                            font-mono
-                            text-[8px]
-                            font-bold
-                            uppercase
-                            tracking-[0.2em]
-                            text-[#B47D00]
-                          "
-                        >
-                          02 / COMMUNITY
-                        </span>
-
-                        <span className="h-1 w-1 rounded-full bg-[#F5B72C]" />
-
-                        <span
-                          className="
-                            font-mono
-                            text-[8px]
-                            uppercase
-                            tracking-wider
-                            text-[#94A3B8]
-                          "
-                        >
-                          GROW
-                        </span>
-
-                      </div>
-
-                      <p
-                        className="
-                          mt-0.5
-                          text-[9px]
-                          uppercase
-                          tracking-wide
-                          text-[#94A3B8]
-                        "
-                      >
-                        Open Ecosystem
-                      </p>
-
-                    </div>
-
-                  </div>
-
-
-                  {/* Arrow */}
-
-                  <div
-                    className="
-                      flex
-                      h-8
-                      w-8
-                      items-center
-                      justify-center
-                      rounded-full
-                      border
-                      border-slate-200
-                      transition-all
-                      duration-300
-                      group-hover:border-[#F4DE9D]
-                      group-hover:bg-[#FFF8E8]
-                    "
-                  >
-                    <ArrowUpRight
-                      className="
-                        h-4
-                        w-4
-                        text-[#94A3B8]
-                        transition-all
-                        duration-300
-                        group-hover:-translate-y-0.5
-                        group-hover:translate-x-0.5
-                        group-hover:text-[#B47D00]
-                      "
-                    />
-                  </div>
-
-                </div>
-
-
-                {/* Main */}
-
-                <div className="mt-7">
-
-                  <p
-                    className="
-                      mb-2
-                      font-mono
-                      text-[9px]
-                      font-semibold
-                      uppercase
-                      tracking-[0.18em]
-                      text-[#94A3B8]
-                    "
-                  >
-                    THE PEOPLE ARM
-                  </p>
-
-
-                  <h3
-                    className="
-                      font-display
-                      text-[clamp(2rem,3.5vw,3rem)]
-                      font-black
-                      uppercase
-                      leading-[0.86]
-                      tracking-[-0.055em]
-                      text-[#0A1128]
-                    "
-                  >
-                    
-                    <br />
-                    COMMUNITY
-                  </h3>
-
-
-                  <p
-                    className="
-                      mt-3
-                      max-w-md
-                      text-xs
-                      leading-5
-                      text-[#64748B]
-                      sm:text-sm
-                    "
-                  >
-                   Developers & Technology Ecosystem
-                  </p>
-
-                </div>
-
-
-                {/* Bottom */}
-
-                <div
-                  className="
-                    relative
-                    mt-6
-                    flex
-                    items-center
-                    justify-between
-                    border-t
-                    border-slate-200
-                    pt-3.5
-                  "
-                >
-
-                  <div className="flex items-center gap-2">
-
-                    <span className="font-mono text-[8px] text-[#475569]">
-                      DEVELOPERS
-                    </span>
-
-                    <span className="h-1 w-1 rounded-full bg-[#F5B72C]" />
-
-                    <span className="font-mono text-[8px] text-[#475569]">
-                      LEARNING
-                    </span>
-
-                    <span className="h-1 w-1 rounded-full bg-[#F5B72C]" />
-
-                    <span className="font-mono text-[8px] text-[#475569]">
-                      COLLABORATION
-                    </span>
-
-                  </div>
-
-
-                  <span
-                    className="
-                      flex
-                      items-center
-                      gap-1.5
-                      font-mono
-                      text-[8px]
-                      font-bold
-                      uppercase
-                      tracking-[0.15em]
-                      text-[#B47D00]
-                      transition-all
-                      duration-300
-                      group-hover:gap-2.5
-                    "
-                  >
-                    Join
-                    <ArrowRight className="h-3 w-3" />
-                  </span>
-
-                </div>
-
+            {/* Bottom Row: Tags & Action */}
+            <div className="relative z-10 pt-5 border-t border-amber-100/70 flex items-center justify-between gap-2">
+              <div className="text-xs font-mono font-semibold tracking-wider text-[#64748B] uppercase flex items-center gap-1.5">
+                <span>DEVELOPERS</span>
+                <span className="text-amber-400">•</span>
+                <span>LEARNING</span>
+                <span className="text-amber-400">•</span>
+                <span>COLLABORATION</span>
               </div>
 
-            </Link>
-
-          </div>
-
-        </div>
-
-
-        {/* ============================================================
-            BOTTOM SYSTEM LABEL
-        ============================================================ */}
-
-        <div
-          className="
-            mt-5
-            flex
-            items-center
-            justify-between
-            border-t
-            border-slate-200
-            pt-3
-          "
-        >
-
-          <div className="flex items-center gap-2">
-
-            <span className="h-1.5 w-1.5 rounded-full bg-[#1677FF]" />
-
-            <span
-              className="
-                font-mono
-                text-[8px]
-                font-semibold
-                uppercase
-                tracking-[0.18em]
-                text-[#94A3B8]
-              "
-            >
-              ONE BRAND / TWO COMPLEMENTARY PATHS
-            </span>
-
-          </div>
-
-
-          <span
-            className="
-              font-mono
-              text-[8px]
-              uppercase
-              tracking-[0.18em]
-              text-[#94A3B8]
-            "
-          >
-            DECODEP / 01
-          </span>
+              <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold tracking-wider text-[#D97706] uppercase group-hover:translate-x-1 transition-transform">
+                <span>JOIN</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </div>
+            </div>
+          </Link>
 
         </div>
 
       </div>
-
     </section>
   )
 }

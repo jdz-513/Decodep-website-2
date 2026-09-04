@@ -1,4 +1,4 @@
-import { BrandInfo, InitiativeItem, CollaborationItem } from '../types'
+import { BrandInfo } from '../types'
 
 export const brandData: BrandInfo = {
   name: 'DECODEP',
@@ -146,77 +146,4 @@ export const communityData = {
   ],
 }
 
-export const currentInitiative: InitiativeItem = {
-  id: 'hackday-1',
-  title: 'HACKDAY 1.0',
-  tag: 'Featured Hackathon',
-  date: '20 September 2026',
-  duration: '8 Hours',
-  entry: 'Free Registration',
-  teamSize: 'Individual or Team of 2',
-  prize: '$300 Cash Prize',
-  problemStatement: 'Problem Statement revealed on Event Day',
-  description:
-    'An intensive 8-hour sprint where developers and students come together to solve practical technical challenges and build functional solutions.',
-  status: 'upcoming',
-  image: '/assets/hackday-poster.png',
-}
 
-export const collaborationsList: CollaborationItem[] = [
-  {
-    id: 'go-hub',
-    title: 'DECODEP Community × GO.HUB Community',
-    partnerName: 'GO. HUB Community',
-    partnerLogo: '/assets/gohub-collaboration.png',
-    collaborationType: 'Community Collaboration',
-    shortDescription:
-      'Ongoing Memorandum of Understanding (MoU) to establish mutual cooperation for community development, technical learning, innovation, and jointly organized hackathons.',
-    date: '23 August 2026',
-    status: 'Active Ongoing Collaboration',
-    nature: 'Ongoing Community Collaboration',
-    posterImage: '/assets/gohub-collaboration.png',
-    purpose:
-      'This Memorandum of Understanding (MoU) sets out the mutual understanding between DECODEP Community, an initiative of DECODEP, and GO. HUB Community to establish an ongoing collaboration for community development, technical learning, innovation and jointly organized initiatives.',
-    partyA: {
-      name: 'DECODEP Community',
-      entity: 'An initiative of DECODEP',
-      representative: 'V. Jaichandran',
-      designation: 'Founder',
-      location: 'Erode, Tamil Nadu',
-      contact: '+91 9363471419',
-    },
-    partyB: {
-      name: 'GO. HUB Community',
-      entity: 'GO. HUB Community',
-      representative: 'Jeba Arasu S',
-      designation: 'Founder',
-      location: 'Chennai, Tamil Nadu',
-      contact: '+91 7904380985',
-    },
-    scopes: [
-      'Hackathons and technical competitions',
-      'Technical workshops, talks and knowledge-sharing sessions',
-      'Community challenges and innovation initiatives',
-      'Student and developer engagement activities',
-      'Mentor, speaker and judge collaboration',
-      'Cross-community outreach, promotion and networking',
-      'Other technology, education or community initiatives mutually agreed upon',
-    ],
-    initialInitiative:
-      'The parties intend to explore and develop an international-level online hackathon as an initial major initiative under this ongoing collaboration.',
-    rolesPartyA: [
-      'Event planning and coordination',
-      'Community outreach and participant engagement',
-      'Technical coordination and execution support',
-      'Event branding and operational support',
-    ],
-    rolesPartyB: [
-      'Promotion and community communication',
-      'Registration and platform support where applicable',
-      'Mentor, judge and community network support',
-      'Collaboration and outreach support',
-    ],
-  },
-]
-
-export const gohubMoUCollaboration: CollaborationItem = collaborationsList[0]

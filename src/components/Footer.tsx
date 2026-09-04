@@ -1,306 +1,167 @@
-import React from "react";
+import React from 'react'
+import { Link } from 'react-router-dom'
 import {
   ArrowUpRight,
   Instagram,
   Linkedin,
   Mail,
   MessageCircle,
-} from "lucide-react";
+  ShieldCheck,
+  MapPin,
+} from 'lucide-react'
+import Logo from './Logo'
+import { brandData } from '../data/officialData'
 
-const DECODEP_NAME = "DECODEP";
-const DECODEP_YEAR = 2026;
-const DECODEP_EMAIL = "officialdecodep@gmail.com";
-
-const Footer: React.FC = () => {
-  const navigation = [
-    { label: "Company", href: "/company" },
-    { label: "Community", href: "/community" },
-    { label: "Innovation", href: "/innovation" },
-    { label: "Initiatives", href: "/initiatives" },
-    { label: "Collaborations", href: "/collaborations" },
-    { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" },
-  ];
+export const Footer: React.FC = () => {
+  const directory = [
+    { label: 'Company', href: '/company' },
+    { label: 'Community', href: '/community' },
+    { label: 'Innovation', href: '/innovation' },
+    { label: 'Initiatives', href: '/initiatives' },
+    { label: 'Collaborations', href: '/collaborations' },
+    { label: 'Collaboration Proposal', href: '/proposals' },
+    { label: 'About', href: '/about' },
+  ]
 
   const connectLinks = [
-    {
-      label: "Instagram",
-      href: "https://instagram.com/officialdecodep",
-      external: true,
-    },
-    {
-      label: "LinkedIn",
-      href: "https://www.linkedin.com/company/officialdecodep/",
-      external: true,
-    },
-    {
-      label: "Join Community",
-      href: "https://chat.whatsapp.com/KS1XKI8X5dT4Kuxt4uL1S4",
-      external: false,
-    },
-    {
-      label: "Partner with Us",
-      href: "/contact",
-      external: false,
-    },
-    {
-      label: "Community FAQ",
-      href: "/community#faq",
-      external: false,
-    },
-    {
-      label: "Contact Support",
-      href: "/contact",
-      external: false,
-    },
-  ];
+    { label: 'Contact Desk', href: '/contact' },
+    { label: 'WhatsApp Community', href: 'https://chat.whatsapp.com/KS1XKI8X5dT4Kuxt4uL1S4', external: true },
+    { label: 'Instagram', href: 'https://instagram.com/officialdecodep', external: true },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/company/officialdecodep/', external: true },
+  ]
 
   return (
-    <footer className="relative mt-auto overflow-hidden border-t border-white/[0.08] bg-[#080D16] text-[#9AA8BA]">
+    <footer className="relative bg-[#0D1117] text-[#9CA3AF] border-t border-white/10">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-14 pb-10">
+        
+        {/* Main Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-12 border-b border-white/10">
+          
+          {/* Brand Column */}
+          <div className="lg:col-span-6 space-y-4">
+            <Logo size="lg" theme="dark" />
 
-      {/* =========================================================
-          TECHNICAL GRID
-      ========================================================= */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.35]"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)
-          `,
-          backgroundSize: "44px 44px",
-        }}
-      />
-
-      {/* =========================================================
-          AMBIENT GLOWS
-      ========================================================= */}
-      <div className="pointer-events-none absolute -left-32 top-0 h-72 w-72 rounded-full bg-[#1677FF]/[0.07] blur-[100px]" />
-
-      <div className="pointer-events-none absolute -right-32 bottom-0 h-72 w-72 rounded-full bg-cyan-400/[0.05] blur-[100px]" />
-
-      {/* =========================================================
-          MAIN CONTAINER
-      ========================================================= */}
-      <div className="relative mx-auto max-w-[1750px] px-6 sm:px-8 lg:px-12">
-
-        {/* =======================================================
-            MAIN FOOTER CONTENT
-        ======================================================= */}
-        <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-12 md:gap-8 lg:py-14">
-
-          {/* =====================================================
-              BRAND
-          ===================================================== */}
-          <div className="md:col-span-5 lg:col-span-6">
-
-            {/* Logo / Brand */}
-            <a
-              href="/"
-              className="group inline-flex items-center gap-3"
-            >
-             <div className="flex items-center gap-4">
-  <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-[#0B1220]">
-    <img
-      src="dist/assets/decodep-logo-hd-transparent.png"
-      alt="DECODEP Logo"
-      className="h-50 w-50 object-contain"
-    />
-  </div>
-
-  <span className="text-2xl font-bold tracking-[0.18em] text-white">
-    DECODEP
-  </span>
-</div>
-            </a>
-
-            {/* Tagline */}
-            <p className="mt-6 max-w-md text-[15px] leading-7 text-[#AAB7C8]">
-              Decode ideas. Build what&apos;s next.
+            <p className="font-serif text-sm text-[#D1D5DB] leading-relaxed max-w-md">
+              A technology ecosystem building digital solutions, empowering developer communities, and creating practical opportunities to learn, build, and grow.
             </p>
 
-            {/* Description */}
-            <p className="mt-2 max-w-lg text-[12px] leading-6 text-[#64748B]">
-              A technology ecosystem building digital solutions,
-              empowering communities, and creating opportunities
-              to learn, build and grow.
-            </p>
+            {/* Legal Registration */}
+            <div className="inline-flex items-center gap-2 text-xs font-mono text-[#9CA3AF]">
+              <ShieldCheck className="w-4 h-4 text-[#C59B27]" />
+              <span>{brandData.registration.status} ({brandData.registration.type}) • Erode, Tamil Nadu</span>
+            </div>
 
-            {/* =================================================
-                SOCIAL ICONS
-            ================================================= */}
-            <div className="mt-7 flex items-center gap-2.5">
-
-              {/* Instagram */}
+            {/* Social Icons */}
+            <div className="flex items-center gap-2.5 pt-1">
               <a
                 href="https://instagram.com/officialdecodep"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="DECODEP Instagram"
-                className="group flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.025] transition-all duration-300 hover:border-[#1677FF]/40 hover:bg-[#1677FF]/10"
+                className="w-8 h-8 rounded-md border border-white/10 bg-white/[0.03] flex items-center justify-center text-[#9CA3AF] hover:text-[#C59B27] hover:border-[#C59B27]/40 transition-colors"
               >
-                <Instagram
-                  size={16}
-                  strokeWidth={1.6}
-                  className="text-[#8FA1B5] transition-colors group-hover:text-[#5EA0FF]"
-                />
+                <Instagram className="w-4 h-4" />
               </a>
-
-              {/* LinkedIn */}
               <a
                 href="https://www.linkedin.com/company/officialdecodep/"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="DECODEP LinkedIn"
-                className="group flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.025] transition-all duration-300 hover:border-[#1677FF]/40 hover:bg-[#1677FF]/10"
+                className="w-8 h-8 rounded-md border border-white/10 bg-white/[0.03] flex items-center justify-center text-[#9CA3AF] hover:text-[#C59B27] hover:border-[#C59B27]/40 transition-colors"
               >
-                <Linkedin
-                  size={16}
-                  strokeWidth={1.6}
-                  className="text-[#8FA1B5] transition-colors group-hover:text-[#5EA0FF]"
-                />
+                <Linkedin className="w-4 h-4" />
               </a>
-
-              {/* Email */}
               <a
-                href={`mailto:${DECODEP_EMAIL}`}
+                href={`mailto:${brandData.email}`}
                 aria-label="Email DECODEP"
-                className="group flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.025] transition-all duration-300 hover:border-[#1677FF]/40 hover:bg-[#1677FF]/10"
+                className="w-8 h-8 rounded-md border border-white/10 bg-white/[0.03] flex items-center justify-center text-[#9CA3AF] hover:text-[#C59B27] hover:border-[#C59B27]/40 transition-colors"
               >
-                <Mail
-                  size={16}
-                  strokeWidth={1.6}
-                  className="text-[#8FA1B5] transition-colors group-hover:text-[#5EA0FF]"
-                />
+                <Mail className="w-4 h-4" />
               </a>
-
-              {/* Community */}
               <a
-                href="/community"
-                aria-label="DECODEP Community"
-                className="group flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.025] transition-all duration-300 hover:border-[#1677FF]/40 hover:bg-[#1677FF]/10"
+                href="https://chat.whatsapp.com/KS1XKI8X5dT4Kuxt4uL1S4"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="DECODEP WhatsApp Community"
+                className="w-8 h-8 rounded-md border border-white/10 bg-white/[0.03] flex items-center justify-center text-[#9CA3AF] hover:text-[#C59B27] hover:border-[#C59B27]/40 transition-colors"
               >
-                <MessageCircle
-                  size={16}
-                  strokeWidth={1.6}
-                  className="text-[#8FA1B5] transition-colors group-hover:text-[#5EA0FF]"
-                />
+                <MessageCircle className="w-4 h-4" />
               </a>
-
             </div>
           </div>
 
-          {/* =====================================================
-              NAVIGATION
-          ===================================================== */}
-          <div className="md:col-span-3 lg:col-span-3">
-
-            <h4 className="font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-[#42D7E8]">
+          {/* Directory Column */}
+          <div className="lg:col-span-3 space-y-3">
+            <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-[#C59B27]">
               Navigation
             </h4>
-
-            <ul className="mt-5 space-y-3">
-              {navigation.map((item) => (
+            <ul className="space-y-2">
+              {directory.map((item) => (
                 <li key={item.label}>
-                  <a
-                    href={item.href}
-                    className="group inline-flex items-center gap-1 text-[13px] text-[#8FA1B5] transition-colors duration-200 hover:text-white"
+                  <Link
+                    to={item.href}
+                    className="text-xs font-mono text-[#9CA3AF] hover:text-white transition-colors"
                   >
-                    <span>{item.label}</span>
-
-                    {item.label === "Community" && (
-                      <ArrowUpRight
-                        size={12}
-                        strokeWidth={1.6}
-                        className="opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
-                      />
-                    )}
-                  </a>
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* =====================================================
-              CONNECT
-          ===================================================== */}
-          <div className="md:col-span-4 lg:col-span-3">
-
-            <h4 className="font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-[#42D7E8]">
+          {/* Connect Column */}
+          <div className="lg:col-span-3 space-y-3">
+            <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-[#C59B27]">
               Connect
             </h4>
-
-            <ul className="mt-5 space-y-3">
+            <ul className="space-y-2">
               {connectLinks.map((item) => (
                 <li key={item.label}>
-                  <a
-                    href={item.href}
-                    target={item.external ? "_blank" : undefined}
-                    rel={item.external ? "noreferrer" : undefined}
-                    className="group inline-flex items-center gap-1.5 text-[13px] text-[#8FA1B5] transition-colors duration-200 hover:text-white"
-                  >
-                    <span>{item.label}</span>
-
-                    <ArrowUpRight
-                      size={12}
-                      strokeWidth={1.5}
-                      className="opacity-40 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100"
-                    />
-                  </a>
+                  {item.external ? (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-xs font-mono text-[#9CA3AF] hover:text-white transition-colors inline-flex items-center gap-1"
+                    >
+                      <span>{item.label}</span>
+                      <ArrowUpRight className="w-3 h-3 text-[#C59B27]" />
+                    </a>
+                  ) : (
+                    <Link
+                      to={item.href}
+                      className="text-xs font-mono text-[#9CA3AF] hover:text-white transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
           </div>
+
         </div>
 
-        {/* =========================================================
-            BOTTOM BAR
-        ========================================================= */}
-        <div className="flex flex-col gap-4 border-t border-white/[0.09] py-5 sm:flex-row sm:items-center sm:justify-between">
-
-          {/* Copyright */}
-          <p className="font-mono text-[9px] uppercase tracking-[0.08em] text-[#64748B]">
-            © {DECODEP_YEAR} {DECODEP_NAME}. All rights reserved.
-          </p>
-
-          {/* =====================================================
-              ECOSYSTEM STATUS
-          ===================================================== */}
-          <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.14em] text-[#53D6E4]">
-
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#53D6E4] opacity-40" />
-
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#53D6E4]" />
-            </span>
-
-            <span>DECODEP Ecosystem Active</span>
+        {/* Bottom Bar */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-[#6B7280]">
+          <div>
+            © {brandData.year} {brandData.name}. All rights reserved.
           </div>
 
-          {/* =====================================================
-              LEGAL
-          ===================================================== */}
-          <div className="flex items-center gap-5 font-mono text-[9px] uppercase tracking-[0.06em] text-[#64748B]">
-
-            <a
-              href="/privacy"
-              className="transition-colors duration-200 hover:text-white"
-            >
+          <div className="flex items-center gap-4">
+            <Link to="/privacy" className="hover:text-white transition-colors">
               Privacy Policy
-            </a>
-
-            <a
-              href="/terms"
-              className="transition-colors duration-200 hover:text-white"
-            >
+            </Link>
+            <span>•</span>
+            <Link to="/terms" className="hover:text-white transition-colors">
               Terms of Service
-            </a>
-
+            </Link>
           </div>
         </div>
+
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

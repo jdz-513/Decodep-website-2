@@ -17,84 +17,33 @@ export const Logo: React.FC<LogoProps> = ({
   theme = 'light',
 }) => {
   const sizeClasses = {
-    sm: 'h-8',
-    md: 'h-10',
-    lg: 'h-14',
+    sm: 'h-8 w-8',
+    md: 'h-10 w-10',
+    lg: 'h-12 w-12',
   }
 
   const textClasses = {
-    sm: 'text-lg',
-    md: 'text-xl',
+    sm: 'text-base',
+    md: 'text-lg',
     lg: 'text-2xl',
   }
 
   const content = (
-    <div
-      className={`
-        inline-flex
-        items-center
-        gap-3
-        select-none
-        group
-        ${className}
-      `}
-    >
-      {/* ============================================================
-          ACTUAL DECODEP LOGO IMAGE
-          Rounded corners are applied directly to the image
-      ============================================================ */}
-
+    <div className={`inline-flex items-center gap-3 select-none group cursor-pointer ${className}`}>
+      {/* Logo Image */}
       <img
-  src="/assets/decodep-logo.png"
-  alt="DECODEP Official Logo"
-  className={`
-    ${sizeClasses[size]}
-    w-auto
-    object-contain
-    rounded-[12px]
-    transition-all
-    duration-300
-    group-hover:scale-105
-    ${
-      theme === 'dark'
-        ? 'drop-shadow-[0_2px_8px_rgba(255,255,255,0.12)]'
-        : 'drop-shadow-[0_2px_8px_rgba(10,17,40,0.16)]'
-    }
-  `}
-  loading="eager"
-/>
+        src="/assets/decodep-logo.png"
+        alt="DECODEP Logo"
+        className={`${sizeClasses[size]} object-contain rounded-lg transition-transform duration-200 group-hover:scale-105`}
+        loading="eager"
+      />
 
-      {/* ============================================================
-          DECODEP WORDMARK
-      ============================================================ */}
-
+      {/* Brand Text */}
       {showText && (
         <span
-          className={`
-            font-display
-            ${textClasses[size]}
-            font-black
-            tracking-[0.12em]
-            uppercase
-            bg-gradient-to-r
-            from-[#0A1128]
-            via-[#164A9C]
-            to-[#1677FF]
-            bg-clip-text
-            text-transparent
-            transition-all
-            duration-300
-
-            ${
-              theme === 'dark'
-                ? 'from-white via-[#AFC4E2] to-[#60A5FA]'
-                : ''
-            }
-
-            group-hover:from-[#1677FF]
-            group-hover:via-[#2563EB]
-            group-hover:to-[#0A1128]
-          `}
+          className={`font-display font-black tracking-[0.14em] uppercase transition-colors duration-200 ${textClasses[size]} ${
+            theme === 'dark' ? 'text-white' : 'text-[#111827]'
+          }`}
         >
           DECODEP
         </span>
@@ -102,24 +51,9 @@ export const Logo: React.FC<LogoProps> = ({
     </div>
   )
 
-  {/* ================================================================
-      HOME LINK
-  ================================================================= */}
-
   if (linkToHome) {
     return (
-      <Link
-        to="/"
-        className="
-          inline-flex
-          items-center
-          rounded-lg
-          focus:outline-none
-          focus-visible:ring-2
-          focus-visible:ring-[#1677FF]
-          focus-visible:ring-offset-2
-        "
-      >
+      <Link to="/" className="inline-flex items-center focus:outline-none" aria-label="DECODEP Home">
         {content}
       </Link>
     )

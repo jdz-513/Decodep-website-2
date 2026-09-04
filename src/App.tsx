@@ -14,12 +14,14 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Collaborations from './pages/Collaborations'
 import CollaborationDetail from './pages/CollaborationDetail'
+import CollaborationProposal from './pages/CollaborationProposal'
+import Legal from './pages/Legal'
 
 export const App: React.FC = () => {
   return (
     <Router>
       <ScrollToTop />
-      <div className="flex flex-col min-h-screen bg-[#FAFBFC] text-[#475569]">
+      <div className="flex flex-col min-h-screen bg-[#FAF8F5] text-[#10141D]">
         <Navbar />
         <main className="flex-grow">
           <Routes>
@@ -32,6 +34,10 @@ export const App: React.FC = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/collaborations" element={<Collaborations />} />
             <Route path="/collaborations/:id" element={<CollaborationDetail />} />
+            <Route path="/proposals" element={<CollaborationProposal />} />
+            <Route path="/collaboration-proposal" element={<CollaborationProposal />} />
+            <Route path="/privacy" element={<Legal />} />
+            <Route path="/terms" element={<Legal />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
