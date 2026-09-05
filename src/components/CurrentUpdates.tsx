@@ -2,10 +2,35 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, ArrowUpRight, Calendar, Radio, Sparkles } from 'lucide-react'
 import { currentUpdates, CurrentUpdate, UpdateStatus, UpdateType } from '../data/currentUpdates'
+import { getPublishedCurrentUpdates } from '../services/currentUpdates'
 
 export const CurrentUpdates: React.FC = () => {
+  const [items, setItems] = useState<CurrentUpdate[] | null>(currentUpdates)
+
+  useEffect(() => {
+    let isMounted = true
+
+    getPublishedCurrentUpdates()
+      .then((updates) => {
+        if (isMounted) setItems(updates)
+      })
+      .catch(() => {
+        if (isMounted) setItems(currentUpdates)
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  if (!items || items.length === 0) return null
+
+  return <CurrentUpdatesCarousel items={items} />
+}
+
+const CurrentUpdatesCarousel: React.FC<{ items: CurrentUpdate[] }> = ({ items }) => {
+
   // Items array and clone setup for seamless infinite loop (D, A, B, C, D, A)
-  const items = currentUpdates
   const total = items.length
 
   // Extended array with boundary clones: [last, ...items, first]

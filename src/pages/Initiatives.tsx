@@ -1,13 +1,33 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Calendar, Clock, Trophy, Users, AlertCircle } from 'lucide-react'
 import RegisterModal from '../components/RegisterModal'
-import { initiatives } from '../data/initiatives'
+import { initiatives as staticInitiatives, InitiativeItem } from '../data/initiatives'
+import { getPublishedInitiatives } from '../services/initiatives'
 
 export const Initiatives: React.FC = () => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false)
+  const [initiatives, setInitiatives] = useState<InitiativeItem[]>(staticInitiatives)
+
+  useEffect(() => {
+    let isMounted = true
+
+    getPublishedInitiatives()
+      .then((publishedInitiatives) => {
+        if (isMounted) setInitiatives(publishedInitiatives)
+      })
+      .catch(() => {
+        if (isMounted) setInitiatives(staticInitiatives)
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   const featuredInitiative = initiatives.find((item) => item.featured) ?? initiatives[0]
   const futureEvents = initiatives.filter((item) => !item.featured)
+
+  if (!featuredInitiative) return null
 
   return (
     <main className="min-h-screen bg-[#FAF8F5] text-[#10141D] pt-24 pb-16">
@@ -174,7 +194,11 @@ export const Initiatives: React.FC = () => {
       </section>
 
       {/* Modal */}
-      <RegisterModal isOpen={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} />
+      <RegisterModal
+        isOpen={isRegisterOpen}
+        onClose={() => setIsRegisterOpen(false)}
+        initiative={featuredInitiative}
+      />
     </main>
   )
 }

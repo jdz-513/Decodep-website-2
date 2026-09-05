@@ -42,7 +42,8 @@ export function getEventStatus(startDateStr: string, endDateStr?: string): Event
 }
 
 /** Derived flagship view over the canonical initiative records. */
-export const flagshipEvents: FlagshipEvent[] = initiatives
+export function createFlagshipEvents(source = initiatives): FlagshipEvent[] {
+  return source
   .filter((initiative) => initiative.startDate && initiative.fullDate && initiative.displayDate)
   .map((initiative) => ({
     id: initiative.id,
@@ -59,3 +60,6 @@ export const flagshipEvents: FlagshipEvent[] = initiatives
     teamSize: initiative.teamSize,
     duration: initiative.duration,
   }))
+}
+
+export const flagshipEvents: FlagshipEvent[] = createFlagshipEvents()

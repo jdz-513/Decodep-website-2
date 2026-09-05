@@ -10,6 +10,7 @@ import {
   Send,
 } from 'lucide-react'
 import { brandData } from '../data/officialData'
+import { submitContactMessage } from '../services/privateForms'
 
 type FormState = {
   name: string
@@ -17,19 +18,6 @@ type FormState = {
   phone: string
   category: string
   message: string
-}
-
-const resolveApiEndpoint = (path: string) => {
-  const configuredBase =
-    (import.meta.env.VITE_CONTACT_API_URL as string | undefined) ||
-    (import.meta.env.VITE_API_URL as string | undefined)
-
-  if (!configuredBase) return null
-
-  const base = configuredBase.endsWith('/') ? configuredBase.slice(0, -1) : configuredBase
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`
-
-  return `${base}${normalizedPath}`
 }
 
 export default function Contact() {
@@ -56,15 +44,8 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
-      setSubmitError('Please complete the required name, email and message fields.')
-      return
-    }
-
-    const endpoint = resolveApiEndpoint('/contact')
-
-    if (!endpoint) {
-      setSubmitError('The contact API endpoint is not configured yet. Set VITE_CONTACT_API_URL or VITE_API_URL in your environment to enable live submission.')
+    if (!form.name.trim() || !form.email.trim() || !form.category.trim() || !form.message.trim()) {
+      setSubmitError('Please complete the required name, email, inquiry type and message fields.')
       return
     }
 
@@ -72,26 +53,17 @@ export default function Contact() {
     setSubmitError('')
 
     try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          category: form.category,
-          message: form.message,
-        }),
+      await submitContactMessage({
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        category: form.category,
+        message: form.message.trim(),
       })
-
-      if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`)
-      }
 
       setIsSubmitted(true)
     } catch (error) {
+      console.error('[DECODEP CONTACT]', error)
       setSubmitError('We could not send your message right now. Please try again or contact DECODEP directly via email or phone.')
     } finally {
       setIsSending(false)
@@ -353,6 +325,12 @@ export default function Contact() {
                       className="w-full px-3.5 py-2.5 rounded-lg border border-[#10141D]/15 bg-white text-[#10141D] placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#C59B27]/40 text-sm resize-none"
                     />
                   </div>
+
+                  {submitError && (
+                    <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+                      {submitError}
+                    </div>
+                  )}
 
                   <button
                     type="submit"

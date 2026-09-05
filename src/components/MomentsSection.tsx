@@ -1,13 +1,39 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { ChevronLeft, ChevronRight, Compass } from 'lucide-react'
 import { moments } from '../data/moments'
+import { MomentItem } from '../data/moments'
+import { getPublishedMoments } from '../services/moments'
 
 export const MomentsSection: React.FC = () => {
+  const [items, setItems] = useState<MomentItem[] | null>(moments)
+
+  useEffect(() => {
+    let isMounted = true
+
+    getPublishedMoments()
+      .then((publishedMoments) => {
+        if (isMounted) setItems(publishedMoments)
+      })
+      .catch(() => {
+        if (isMounted) setItems(moments)
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  if (!items || items.length === 0) return null
+
+  return <MomentsCarousel key={items.map((item) => item.id).join('-')} items={items} />
+}
+
+const MomentsCarousel: React.FC<{ items: MomentItem[] }> = ({ items }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
-  const total = moments.length
+  const total = items.length
 
   // Navigation handlers
   const nextSlide = useCallback(() => {
@@ -119,7 +145,7 @@ export const MomentsSection: React.FC = () => {
     }
   }
 
-  const activeMoment = moments[currentIndex]
+  const activeMoment = items[currentIndex]
 
   return (
     <section
@@ -186,7 +212,7 @@ export const MomentsSection: React.FC = () => {
           style={{ perspective: '1200px' }}
           className="relative w-full h-[320px] sm:h-[380px] md:h-[420px] flex items-center justify-center overflow-visible select-none"
         >
-          {moments.map((moment, index) => {
+          {items.map((moment, index) => {
             const style = getSlideStyle(index)
             const isCenter = index === currentIndex
 
@@ -255,7 +281,7 @@ export const MomentsSection: React.FC = () => {
 
           {/* Minimal Progress Dots */}
           <div className="flex items-center gap-1.5">
-            {moments.map((_, dotIdx) => {
+            {items.map((_, dotIdx) => {
               const isActive = dotIdx === currentIndex
               return (
                 <button

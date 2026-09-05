@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { X, CheckCircle, Trophy, Calendar, Clock, AlertCircle, ShieldCheck, Sparkles } from 'lucide-react'
-import { initiatives } from '../data/initiatives'
+import { initiatives, InitiativeItem } from '../data/initiatives'
 
 interface RegisterModalProps {
   isOpen: boolean
   onClose: () => void
+  initiative?: InitiativeItem
 }
 
-export const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose }) => {
-  const featuredInitiative = initiatives.find((item) => item.featured) ?? initiatives[0]
+export const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, initiative }) => {
+  const featuredInitiative = initiative ?? initiatives.find((item) => item.featured) ?? initiatives[0]
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',

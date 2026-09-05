@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, ShieldCheck, CheckCircle2, Cpu, Globe, Smartphone, Layers } from 'lucide-react'
 import { brandData, whatWeDoCompany, howWeWorkSteps } from '../data/officialData'
+import { submitServiceRequest } from '../services/privateForms'
 
 const serviceIcons = [Cpu, Globe, Smartphone, Layers]
 
@@ -13,17 +14,6 @@ const serviceOptions = [
   'Community Partnership',
   'Other',
 ]
-
-const resolveServiceApiEndpoint = () => {
-  const configuredBase =
-    (import.meta.env.VITE_CLIENT_SERVICE_API_URL as string | undefined) ||
-    (import.meta.env.VITE_API_URL as string | undefined)
-
-  if (!configuredBase) return null
-
-  const base = configuredBase.endsWith('/') ? configuredBase.slice(0, -1) : configuredBase
-  return `${base}/services`
-}
 
 export const Company: React.FC = () => {
   const [form, setForm] = useState({
@@ -50,15 +40,8 @@ export const Company: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    if (!form.name.trim() || !form.email.trim() || !form.projectDetails.trim()) {
+    if (!form.name.trim() || !form.email.trim() || !form.service.trim() || !form.projectDetails.trim()) {
       setSubmitError('Please fill in your name, email, and project details.')
-      return
-    }
-
-    const endpoint = resolveServiceApiEndpoint()
-
-    if (!endpoint) {
-      setSubmitError('The client service API endpoint is not configured yet. Set VITE_CLIENT_SERVICE_API_URL or VITE_API_URL in your environment to enable live submissions.')
       return
     }
 
@@ -66,24 +49,14 @@ export const Company: React.FC = () => {
     setSubmitError('')
 
     try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          company: form.company,
-          service: form.service,
-          projectDetails: form.projectDetails,
-        }),
+      await submitServiceRequest({
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        company: form.company.trim(),
+        service: form.service,
+        projectDetails: form.projectDetails.trim(),
       })
-
-      if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`)
-      }
 
       setIsSubmitted(true)
       setForm({

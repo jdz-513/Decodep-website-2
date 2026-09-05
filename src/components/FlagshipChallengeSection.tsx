@@ -1,12 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, Calendar, Sparkles, Trophy, Users, Clock } from 'lucide-react'
-import { flagshipEvents, getEventStatus, EventStatus } from '../data/flagshipEvents'
+import { createFlagshipEvents, flagshipEvents as staticFlagshipEvents, getEventStatus, EventStatus } from '../data/flagshipEvents'
+import { initiatives as staticInitiatives } from '../data/initiatives'
+import { getPublishedInitiatives } from '../services/initiatives'
 
 export const FlagshipChallengeSection: React.FC = () => {
+  const [events, setEvents] = useState(staticFlagshipEvents)
+
+  useEffect(() => {
+    let isMounted = true
+
+    getPublishedInitiatives()
+      .then((publishedInitiatives) => {
+        if (isMounted) setEvents(createFlagshipEvents(publishedInitiatives))
+      })
+      .catch(() => {
+        if (isMounted) setEvents(createFlagshipEvents(staticInitiatives))
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
   // Primary active flagship event (01 / 03)
   const currentEventIndex = 0
-  const event = flagshipEvents[currentEventIndex]
+  const event = events[currentEventIndex]
+  if (!event) return null
   const status: EventStatus = getEventStatus(event.startDate, event.endDate)
 
   // Status badge styling helper
@@ -66,7 +87,7 @@ export const FlagshipChallengeSection: React.FC = () => {
 
               {/* Event Index */}
               <div className="font-mono text-xs font-semibold text-slate-500 tracking-wider">
-                0{currentEventIndex + 1} / 0{flagshipEvents.length}
+                0{currentEventIndex + 1} / 0{events.length}
               </div>
             </div>
 

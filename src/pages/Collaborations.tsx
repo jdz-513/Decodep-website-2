@@ -1,9 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Handshake, Calendar, MapPin, ArrowRight } from 'lucide-react'
-import { collaborations as collaborationsList } from '../data/collaborations'
+import { collaborations as staticCollaborations, Collaboration } from '../data/collaborations'
+import { getPublishedCollaborations } from '../services/collaborations'
 
 export const Collaborations: React.FC = () => {
+  const [collaborationsList, setCollaborationsList] = useState<Collaboration[]>(staticCollaborations)
+
+  useEffect(() => {
+    let isMounted = true
+
+    getPublishedCollaborations()
+      .then((publishedCollaborations) => {
+        if (isMounted) setCollaborationsList(publishedCollaborations)
+      })
+      .catch(() => {
+        if (isMounted) setCollaborationsList(staticCollaborations)
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
   return (
     <main className="min-h-screen bg-[#FAF8F5] text-[#10141D] pt-24 pb-16">
       {/* Hero */}

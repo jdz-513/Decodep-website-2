@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, Link, Navigate } from 'react-router-dom'
 import {
   ArrowLeft,
@@ -9,11 +9,40 @@ import {
   ShieldCheck,
   Users,
 } from 'lucide-react'
-import { collaborations as collaborationsList } from '../data/collaborations'
+import { collaborations as staticCollaborations, Collaboration } from '../data/collaborations'
+import { getCollaborationById } from '../services/collaborations'
 
 export const CollaborationDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>()
-  const collab = collaborationsList.find((c) => c.id === id)
+  const staticMatch = staticCollaborations.find(
+    (collaboration) => collaboration.id === id || collaboration.link === `/collaborations/${id}`
+  )
+  const [collab, setCollab] = useState<Collaboration | null>(staticMatch || null)
+  const [hasLoaded, setHasLoaded] = useState(false)
+
+  useEffect(() => {
+    let isMounted = true
+
+    getCollaborationById(id || '')
+      .then((publishedCollaboration) => {
+        if (isMounted) {
+          setCollab(publishedCollaboration)
+          setHasLoaded(true)
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setCollab(staticMatch || null)
+          setHasLoaded(true)
+        }
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [id])
+
+  if (!collab && !hasLoaded) return null
 
   if (!collab) {
     return <Navigate to="/collaborations" replace />

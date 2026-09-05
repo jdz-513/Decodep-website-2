@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, ArrowUpRight, Handshake, Calendar, MapPin, Sparkles } from 'lucide-react'
 import { collaborations as defaultCollaborations, Collaboration } from '../data/collaborations'
+import { getPublishedCollaborations } from '../services/collaborations'
 
 interface CollaborationSectionProps {
   items?: Collaboration[]
@@ -10,6 +11,28 @@ interface CollaborationSectionProps {
 export const CollaborationSection: React.FC<CollaborationSectionProps> = ({
   items = defaultCollaborations,
 }) => {
+  const [collaborations, setCollaborations] = useState<Collaboration[] | null>(items)
+
+  useEffect(() => {
+    if (items !== defaultCollaborations) return
+
+    let isMounted = true
+
+    getPublishedCollaborations()
+      .then((publishedCollaborations) => {
+        if (isMounted) setCollaborations(publishedCollaborations)
+      })
+      .catch(() => {
+        if (isMounted) setCollaborations(defaultCollaborations)
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [items])
+
+  if (!collaborations || collaborations.length === 0) return null
+
   return (
     <section id="collaborations" className="relative py-14 sm:py-20 px-6 sm:px-10 lg:px-16 bg-[#FAF8F5] text-[#111827] border-b border-[#111827]/10">
       <div className="max-w-6xl mx-auto space-y-8">
@@ -30,7 +53,7 @@ export const CollaborationSection: React.FC<CollaborationSectionProps> = ({
 
         {/* Collaborations Grid: Data-Driven Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {items.map((collab) => {
+          {collaborations.map((collab) => {
             const isDiscussion = collab.status?.toUpperCase().includes('DISCUSSION')
             const displayTitle = collab.title || `DECODEP Community × ${collab.partner}`
             const hasLink = Boolean(collab.link && collab.link.trim() !== '')
